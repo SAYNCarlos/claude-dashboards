@@ -6,179 +6,214 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; color: #1f2937; background: #f0f2f5; font-size: 13px; }
-  header { background: linear-gradient(90deg,#203864,#2E5395); color: #fff; padding: 16px 28px; display:flex; align-items:center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,.1); }
-  header .title { font-size: 18px; font-weight: 600; letter-spacing:.2px; }
-  header .meta { font-size: 12px; opacity:.85; }
-  nav { background: #fff; padding: 0 20px; display: flex; gap: 0; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 2px rgba(0,0,0,.04); overflow-x: auto;}
-  nav button { background: none; border: none; padding: 14px 18px; font-size: 13px; cursor: pointer; color: #4b5563; border-bottom: 3px solid transparent; transition: all .15s; font-weight: 500; font-family: inherit; white-space: nowrap;}
-  nav button:hover { color: #203864; background: #f8fafc; }
-  nav button.active { color: #203864; border-bottom-color: #2E5395; background: #f8fafc; }
-  main { padding: 20px; max-width: 1500px; margin: 0 auto; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Arial, sans-serif;
+    color: #111827;
+    background: #fafafa;
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    background: #ffffff;
+    color: #111827;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  header .title { font-size: 16px; font-weight: 600; letter-spacing: -0.1px; }
+  header .meta { font-size: 12px; color: #6b7280; }
+  main { padding: 28px 32px; max-width: 1500px; margin: 0 auto; }
   .page { display: none; }
   .page.active { display: block; }
-  h2 { margin: 0 0 16px 0; color: #203864; font-size: 20px; font-weight: 600; }
-  h3 { margin: 24px 0 10px 0; color: #2E5395; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
-  .subtitle { color: #6b7280; font-size: 13px; margin-bottom: 16px; }
-  .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-  .kpi-strip.six { grid-template-columns: repeat(6, 1fr); }
-  .kpi-card { background: #fff; border-radius: 8px; padding: 14px 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); border-top: 3px solid #2E5395; }
-  .kpi-card.up { border-top-color: #16a34a; }
-  .kpi-card.down { border-top-color: #dc2626; }
-  .kpi-card.warn { border-top-color: #f59e0b; }
-  .kpi-label { color: #6b7280; font-size: 11px; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
-  .kpi-value { font-size: 22px; font-weight: 700; color: #203864; line-height: 1.1; }
-  .kpi-sub { color: #6b7280; font-size: 11px; margin-top: 4px; font-style: italic; }
-  .kpi-sub.up { color: #16a34a; font-weight: 600; font-style: normal; }
-  .kpi-sub.down { color: #dc2626; font-weight: 600; font-style: normal; }
-  .card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 16px; }
-  .card h3 { margin-top: 0; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .grid-1-1 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .grid-1-1-1 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-  .chart-wrap { position: relative; height: 280px; }
-  .chart-wrap.short { height: 200px; }
-  .chart-wrap.tall { height: 340px; }
-  table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  table th { background: #f3f4f6; text-align: left; padding: 8px 10px; font-weight: 600; color: #374151; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; }
-  table th.num, table td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  table td { padding: 6px 10px; border-bottom: 1px solid #f3f4f6; }
-  table tr:hover td { background: #f8fafc; }
-  .tbl-scroll { max-height: 500px; overflow: auto; border: 1px solid #e5e7eb; border-radius: 6px; }
-  .pill { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-  .pill.new { background: #dbeafe; color: #1e40af; }
-  .pill.em1 { background: #dcfce7; color: #166534; }
-  .pill.em2 { background: #fef3c7; color: #854d0e; }
-  .pill.red { background: #fecaca; color: #991b1b; }
-  .pill.amber { background: #fde68a; color: #854d0e; }
-  .pill.yellow { background: #fef9c3; color: #713f12; }
-  .pill.gray { background: #f1f5f9; color: #475569; }
-  .pill.good { background: #dcfce7; color: #166534; }
-  .up-arrow { color: #16a34a; font-weight: 700; }
-  .down-arrow { color: #dc2626; font-weight: 700; }
-  .slicer-row { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-  .slicer { display: flex; align-items: center; gap: 8px; background: #fff; padding: 6px 12px; border-radius: 6px; border: 1px solid #e5e7eb; }
-  .slicer label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: .3px; font-weight: 600; }
-  .slicer select { border: 1px solid #d1d5db; padding: 4px 8px; border-radius: 4px; background: #fff; font-size: 12px; font-family: inherit; color: #1f2937; }
-  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
-  .note { background: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 4px; font-size: 12px; color: #78350f; margin: 12px 0; }
-  footer { text-align: center; color: #9ca3af; padding: 20px; font-size: 11px; }
+  h2 { margin: 0 0 4px 0; color: #111827; font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+  .subtitle { color: #6b7280; font-size: 13px; margin: 0; }
+  footer { text-align: center; color: #9ca3af; padding: 32px 20px; font-size: 11px; }
+
   /* Brand hero + selector */
-  .brand-hero { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 18px; gap: 16px; flex-wrap: wrap; }
+  .brand-hero { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; gap: 16px; flex-wrap: wrap; }
   .hero-left { flex: 1; min-width: 260px; }
   .hero-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-  .win-toggle { display: inline-flex; background: #fff; border: 1px solid #d1d5db; border-radius: 6px; overflow: hidden; }
-  .win-toggle button { padding: 6px 14px; border: none; background: #fff; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; color: #4b5563; display: flex; flex-direction: column; align-items: center; line-height: 1.2; transition: background 0.15s; }
-  .win-toggle button:hover { background: #f8fafc; }
-  .win-toggle button.active { background: #203864; color: #fff; }
-  .win-toggle .win-sub { font-size: 9px; font-weight: 400; opacity: 0.85; margin-top: 1px; }
-  .kpi-strip.six .kpi-sub { font-size: 11px; }
-  .kpi-sub.up { color: #16a34a; }
-  .kpi-sub.down { color: #dc2626; }
-  .kpi-sub.flat { color: #6b7280; }
-  /* Power BI-style table visual (matches Marketplace Sales / Storefront Sales examples) */
-  .vcard { padding: 0; overflow: hidden; }
-  .vcard-title { background: #203864; color: #fff; font-weight: 700; font-size: 14px; padding: 10px 14px; text-align: center; letter-spacing: 0.3px; }
-  .vcard-scroll { max-height: 320px; overflow-y: auto; padding: 0; }
-  .vcard-scroll-banner { max-height: 280px; overflow-y: auto; padding: 0; }
-  .tile-tall { display: flex; flex-direction: column; }
-  .tile-banner { padding: 8px 14px; font-size: 12px; font-weight: 600; line-height: 1.35; border-bottom: 1px solid #e5e7eb; flex-shrink: 0; }
-  .tile-banner.green { background: #ecfdf5; color: #065f46; border-left: 4px solid #10b981; }
-  .tile-banner.amber { background: #fffbeb; color: #854d0e; border-left: 4px solid #f59e0b; }
-  .tile-banner.red { background: #fef2f2; color: #991b1b; border-left: 4px solid #dc2626; }
-  .tile-banner.gray { background: #f8fafc; color: #475569; border-left: 4px solid #94a3b8; }
-  .tile-banner .badge { display:inline-block; background: rgba(0,0,0,0.07); padding: 1px 6px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-right: 6px; }
-  .vcard-chart { padding: 8px 12px 12px 12px; height: 280px; position: relative; flex: 1; min-height: 0; }
-  .vcard-chart canvas { max-width: 100%; }
-  /* === Mover action cards (winners / losers) === */
-  .mover-cards { padding: 8px 12px 12px 12px; max-height: 280px; overflow-y: auto; flex: 1; min-height: 0; }
-  .mover-card { border-left: 4px solid #94a3b8; background: #f8fafc; border-radius: 4px; padding: 8px 10px; margin-bottom: 6px; }
-  .mover-card.good { border-left-color: #16a34a; background: #f0fdf4; }
-  .mover-card.warn { border-left-color: #f59e0b; background: #fffbeb; }
-  .mover-card.bad  { border-left-color: #dc2626; background: #fef2f2; }
-  .mover-card-name { font-size: 12px; font-weight: 700; color: #1f2937; line-height: 1.25; margin-bottom: 2px; }
-  .mover-card-status { font-size: 11px; font-weight: 600; color: #4b5563; margin-bottom: 6px; font-style: italic; }
-  .mover-card.good .mover-card-status { color: #166534; }
-  .mover-card.warn .mover-card-status { color: #854d0e; }
-  .mover-card.bad  .mover-card-status { color: #991b1b; }
-  .mover-card-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
-  .mover-metric { display: flex; flex-direction: column; align-items: flex-start; padding: 3px 6px; background: rgba(255,255,255,0.7); border-radius: 3px; font-variant-numeric: tabular-nums; }
-  .metric-label { font-size: 9px; font-weight: 700; letter-spacing: 0.5px; color: #6b7280; text-transform: uppercase; }
-  .metric-val { font-size: 12px; font-weight: 700; }
-  .metric-val.pos { color: #16a34a; }
-  .metric-val.neg { color: #dc2626; }
-  .metric-val.flat { color: #6b7280; }
-  /* === Storefront insights === */
-  .insight-list { padding: 10px 14px 6px 14px; max-height: 200px; overflow-y: auto; }
-  .insight { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px dashed #e5e7eb; font-size: 12px; line-height: 1.4; }
-  .insight:last-child { border-bottom: none; }
-  .insight-icon { flex-shrink: 0; font-size: 14px; line-height: 1.2; }
-  .insight strong { color: #1f2937; }
-  .insight.opportunity .insight-icon { color: #f59e0b; }
-  .insight.win .insight-icon { color: #16a34a; }
-  .insight.warn .insight-icon { color: #dc2626; }
-  .storefront-mini-tbl { padding: 0 12px 10px 12px; }
-  .storefront-mini-tbl table { width: 100%; border-collapse: collapse; font-size: 11px; }
-  .storefront-mini-tbl th { background: #f3f4f6; text-align: left; padding: 5px 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; color: #475569; letter-spacing: 0.3px; }
-  .storefront-mini-tbl td { padding: 5px 8px; border-bottom: 1px solid #f3f4f6; }
-  .storefront-mini-tbl td.num, .storefront-mini-tbl th.num { text-align: right; font-variant-numeric: tabular-nums; }
-  .xox-tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
-  .xox-tbl thead th { position: sticky; top: 0; background: #f1f5f9; color: #1f2937; font-weight: 700; padding: 7px 10px; border-bottom: 2px solid #203864; font-size: 11px; text-align: left; z-index: 2; }
-  .xox-tbl thead th.num { text-align: right; }
-  .xox-tbl tbody tr:nth-child(even) { background: #f8fafc; }
-  .xox-tbl tbody tr:hover { background: #eff6ff; }
-  .xox-tbl td { padding: 6px 10px; border-bottom: 1px solid #f1f5f9; font-variant-numeric: tabular-nums; }
-  .xox-tbl td.num { text-align: right; }
-  .xox-tbl td.desc { font-weight: 500; color: #1f2937; line-height: 1.3; }
-  .xox-tbl td.pos { color: #15803d; font-weight: 600; }
-  .xox-tbl td.neg { color: #b91c1c; font-weight: 600; }
-  .xox-tbl td.flat { color: #6b7280; }
-  .xox-tbl td.brand-cell { font-weight: 600; color: #1f2937; }
-  /* Conditional shading for Store % of Brand Sales (yellow / orange highlight for outliers) */
-  .xox-tbl td.highlight-warn { background: #fef3c7; }
-  .xox-tbl td.highlight-good { background: #dcfce7; }
-  .brand-hero h2 { margin: 0; }
   .brand-chips { display: flex; gap: 6px; flex-wrap: wrap; }
-  .brand-chip { padding: 6px 14px; border-radius: 16px; background: #fff; border: 1px solid #d1d5db; cursor: pointer; font-size: 12px; font-weight: 600; color: #4b5563; transition: all 0.15s; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; }
-  .brand-chip:hover { background: #f8fafc; border-color: #9ca3af; }
-  .brand-chip.active { background: #203864; border-color: #203864; color: #fff; }
-  .brand-chip .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .brand-chip.active .dot { outline: 2px solid #fff; }
-  /* Urgent actions */
-  .urgent-panel { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 16px; border-left: 4px solid #dc2626; height: 320px; display: flex; flex-direction: column; }
-  .urgent-panel h3 { margin: 0 0 10px 0; color: #991b1b; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .urgent-panel .count-badge { background: #dc2626; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 11px; }
-  .urgent-panel .pbi-note { margin-left: auto; font-size: 10px; color: #6b7280; font-weight: 400; font-style: italic; }
-  .urgent-empty { text-align: center; padding: 20px; color: #16a34a; font-weight: 600; }
-  .action-list { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; flex: 1; padding-right: 4px; }
-  .action-list::-webkit-scrollbar { width: 8px; }
-  .action-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-  .action-list::-webkit-scrollbar-track { background: #f1f5f9; }
-  .action-row { display: grid; grid-template-columns: 90px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; background: #fafafa; border-radius: 6px; border-left: 3px solid #e5e7eb; font-size: 12px; }
-  .action-row.critical { border-left-color: #dc2626; background: #fef2f2; }
-  .action-row.urgent { border-left-color: #f59e0b; background: #fffbeb; }
-  .action-row.watch { border-left-color: #eab308; background: #fefce8; }
-  .action-severity { font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
-  .action-severity.critical { color: #991b1b; }
-  .action-severity.urgent { color: #92400e; }
-  .action-severity.watch { color: #854d0e; }
-  .action-sku { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 600; color: #1f2937; }
-  .action-detail { color: #6b7280; font-size: 11px; margin-top: 2px; }
-  .action-right { text-align: right; color: #4b5563; font-size: 11px; white-space: nowrap; }
-  .action-right strong { color: #1f2937; font-size: 13px; display: block; }
+  .brand-chip { padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid #e5e7eb; cursor: pointer; font-size: 12px; font-weight: 500; color: #4b5563; transition: all 0.12s; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; }
+  .brand-chip:hover { background: #f9fafb; border-color: #d1d5db; }
+  .brand-chip.active { background: #111827; border-color: #111827; color: #fff; }
+  .brand-chip .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .brand-chip.active .dot { outline: 1.5px solid #fff; }
+  .win-toggle { display: inline-flex; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; padding: 2px; }
+  .win-toggle button { padding: 6px 12px; border: none; background: transparent; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 500; color: #6b7280; display: flex; flex-direction: column; align-items: center; line-height: 1.2; transition: all 0.12s; border-radius: 6px; }
+  .win-toggle button:hover { color: #111827; }
+  .win-toggle button.active { background: #111827; color: #fff; }
+  .win-toggle .win-sub { font-size: 9px; font-weight: 400; opacity: 0.85; margin-top: 1px; }
+
+  /* Layout */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+  /* Tile / card */
+  .vcard {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+  .vcard-title {
+    padding: 14px 18px 4px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* Chart container */
+  .vcard-chart { padding: 12px 18px 18px 18px; height: 280px; position: relative; flex: 1; min-height: 0; }
+  .vcard-chart canvas { max-width: 100%; }
+
+  /* === Mover action cards (winners / losers) === */
+  .mover-cards {
+    padding: 6px 18px 14px 18px;
+    max-height: 340px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+  .mover-card {
+    border-bottom: 1px solid #f3f4f6;
+    padding: 12px 0 12px 12px;
+    position: relative;
+  }
+  .mover-card:last-child { border-bottom: none; }
+  .mover-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 14px; bottom: 14px; width: 2px;
+    border-radius: 2px;
+    background: #d1d5db;
+  }
+  .mover-card.good::before { background: #10b981; }
+  .mover-card.warn::before { background: #f59e0b; }
+  .mover-card.bad::before  { background: #ef4444; }
+  .mover-card-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+    line-height: 1.35;
+    margin-bottom: 2px;
+  }
+  .mover-card-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 6px; }
+  .mover-metric { display: flex; flex-direction: column; gap: 1px; font-variant-numeric: tabular-nums; }
+  .metric-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    color: #9ca3af;
+    text-transform: uppercase;
+  }
+  .metric-val { font-size: 13px; font-weight: 600; color: #111827; }
+  .metric-val.pos { color: #059669; }
+  .metric-val.neg { color: #dc2626; }
+  .metric-val.flat { color: #9ca3af; }
+  .metric-sub { font-size: 10px; color: #9ca3af; margin-top: 1px; }
+
+  /* === Conditional formatting cells (heatmap) === */
+  .cf-low  { background: #fef2f2; color: #b91c1c; font-weight: 600; }
+  .cf-mid  { background: #fffbeb; color: #b45309; font-weight: 600; }
+  .cf-high { background: #ecfdf5; color: #047857; font-weight: 600; }
+  /* In-cell horizontal bar for traffic-style numbers (visitors / sessions) */
+  .cf-bar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    width: 100%;
+    position: relative;
+    padding: 2px 0;
+  }
+  .cf-bar-fill {
+    position: absolute;
+    left: 0; top: 50%; transform: translateY(-50%);
+    height: 16px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    z-index: 0;
+  }
+  .cf-bar-fill.neutral { background: #e5e7eb; }
+  .cf-bar-label {
+    position: relative;
+    z-index: 1;
+    padding: 0 6px;
+    color: #111827;
+    font-weight: 600;
+  }
+  .storefront-mini-tbl { padding: 16px 18px 16px 18px; }
+  .storefront-mini-tbl table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .storefront-mini-tbl th {
+    text-align: left;
+    padding: 6px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #9ca3af;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .storefront-mini-tbl td {
+    padding: 7px 8px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+  }
+  .storefront-mini-tbl tr:last-child td { border-bottom: none; }
+  .storefront-mini-tbl td.num, .storefront-mini-tbl th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* === Conversion Rate clean table === */
+  .xox-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .xox-tbl thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    color: #9ca3af;
+    font-weight: 600;
+    padding: 10px 16px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .xox-tbl thead th.num { text-align: right; }
+  .xox-tbl tbody tr { border-bottom: 1px solid #f3f4f6; }
+  .xox-tbl tbody tr:last-child { border-bottom: none; }
+  .xox-tbl td { padding: 10px 16px; font-variant-numeric: tabular-nums; color: #374151; }
+  .xox-tbl td.num { text-align: right; }
+  .xox-tbl td.desc { font-weight: 500; color: #111827; line-height: 1.35; }
+  .xox-tbl td.pos { color: #059669; font-weight: 600; }
+  .xox-tbl td.neg { color: #dc2626; font-weight: 600; }
+  .xox-tbl td.flat { color: #9ca3af; }
+  .vcard-scroll-banner { max-height: 320px; overflow-y: auto; }
+
+  /* Brand color dot */
+  .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .tile-tall { display: flex; flex-direction: column; }
+
+  /* Subtle scrollbars */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
 </style>
 </head>
 <body>
 
 <header>
   <div>
-    <div class="title">Amazon Marketplace - Power BI Landing Pages Mockup</div>
-    <div class="meta">2026 YTD (Jan 1 - Apr 22) - 7 brands - Amazon channel - USD - FBA + FBM + B2B</div>
+    <div class="title">Brand Performance</div>
   </div>
-  <div class="meta" style="text-align:right;">
-    <div>v3 - Full data stack</div>
-    <div>Orders + Fees + Traffic + Marketing</div>
-  </div>
+  <div class="meta">2026 YTD &middot; 7 brands &middot; Amazon</div>
 </header>
 
 <main>
@@ -187,8 +222,8 @@
 <section id="page-brand" class="page active">
   <div class="brand-hero">
     <div class="hero-left">
-      <h2>Brand Manager Landing</h2>
-      <p class="subtitle" id="brand-subtitle" style="margin-bottom:0;">Select a brand and time window. Default: all 7 brands, WoW.</p>
+      <h2>What needs your attention</h2>
+      <p class="subtitle" id="brand-subtitle">All brands &middot; WoW (last 7 days vs prior 7)</p>
     </div>
     <div class="hero-controls">
       <div class="brand-chips" id="brand-chip-row"><!-- chips rendered by JS --></div>
@@ -202,12 +237,10 @@
   <div class="grid-2">
     <div class="card vcard tile-tall">
       <div class="vcard-title">Top Winners — Sales × Margin × CVR</div>
-      <div class="tile-banner" id="winners-banner"></div>
       <div class="mover-cards" id="winners-cards"></div>
     </div>
     <div class="card vcard tile-tall">
       <div class="vcard-title">Top Losers — Sales × Margin × CVR</div>
-      <div class="tile-banner" id="losers-banner"></div>
       <div class="mover-cards" id="losers-cards"></div>
     </div>
   </div>
@@ -215,13 +248,10 @@
   <div class="grid-2">
     <div class="card vcard tile-tall">
       <div class="vcard-title">Organic vs Sponsored Sales</div>
-      <div class="tile-banner" id="org-sponsored-banner"></div>
       <div class="vcard-chart"><canvas id="org-sponsored-chart"></canvas></div>
     </div>
     <div class="card vcard tile-tall">
       <div class="vcard-title">Storefront Sales — Opportunity Map</div>
-      <div class="tile-banner" id="storefront-banner"></div>
-      <div class="insight-list" id="storefront-insights"></div>
       <div class="storefront-mini-tbl" id="storefront-table"></div>
     </div>
   </div>
@@ -229,12 +259,10 @@
   <div class="grid-2">
     <div class="card vcard tile-tall">
       <div class="vcard-title">Projections vs Actuals (April MTD)</div>
-      <div class="tile-banner" id="proj-actual-banner"></div>
       <div class="vcard-chart"><canvas id="proj-actual-chart"></canvas></div>
     </div>
     <div class="card vcard tile-tall">
       <div class="vcard-title">Conversion Rate</div>
-      <div class="tile-banner" id="cvr-banner"></div>
       <div class="tbl-scroll vcard-scroll-banner">
         <table class="xox-tbl">
           <thead><tr><th>Description</th><th class="num">Sessions</th><th class="num">CVR %</th><th class="num">CVR &Delta; pp</th></tr></thead>
@@ -286,12 +314,6 @@ const page1Charts = {};  // canvasId -> Chart instance, for lifecycle management
 function destroyChart(id) {
   if (page1Charts[id]) { page1Charts[id].destroy(); delete page1Charts[id]; }
 }
-function setBanner(id, level, html) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.className = 'tile-banner ' + level;
-  el.innerHTML = html;
-}
 function shortDesc(s, n) {
   if (!s) return '';
   return s.length > n ? s.substring(0, n - 1) + '…' : s;
@@ -319,53 +341,17 @@ function moverCardClass(r, isWinner) {
     return 'warn';
   }
 }
-function moverCardStatus(r, isWinner) {
-  const m = r.margin_pp; const c = r.cvr_pp;
-  if (isWinner) {
-    if ((m !== null && m > 0) && (c !== null && c > 0)) return 'Triple win — margin & CVR also up';
-    if (m !== null && m < -1) return 'Sales up but margin compressed — pricing/cost check';
-    if (c !== null && c < -1) return 'Sales up despite CVR drop — likely traffic surge';
-    if (m === null && c === null) return 'Sales up — no margin/CVR data';
-    return 'Healthy growth';
-  } else {
-    if ((m !== null && m < 0) && (c !== null && c < 0)) return 'TRIPLE DECLINE — investigate immediately';
-    if (c !== null && c < -1) return 'Conversion drop driving sales loss — listing/pricing review';
-    if (m !== null && m > 0 && c !== null && c >= 0) return 'Sales down but margin & CVR holding — volume issue only';
-    if (m === null && c === null) return 'Sales down — no margin/CVR data';
-    return 'Sales decline — monitor';
-  }
-}
 function clsMetric(v) { if (v === null || v === undefined) return 'flat'; if (v > 0.05) return 'pos'; if (v < -0.05) return 'neg'; return 'flat'; }
 
-function renderMoverCards(containerId, bannerId, rows, isWinner) {
+function renderMoverCards(containerId, rows, isWinner) {
   const container = document.getElementById(containerId);
   if (!rows || rows.length === 0) {
     container.innerHTML = '<div style="text-align:center; padding:24px; color:#9ca3af; font-size:12px;">No ' + (isWinner ? 'winners' : 'losers') + ' in this window.</div>';
-    setBanner(bannerId, 'gray', `<span class="badge">${isWinner ? 'WINNERS' : 'LOSERS'}</span>No SKUs in this window.`);
     return;
   }
   const display = rows.slice(0, 6);
-  // Banner: count compounding issues / triple wins
-  if (isWinner) {
-    const triples = display.filter(r => (r.margin_pp !== null && r.margin_pp > 0) && (r.cvr_pp !== null && r.cvr_pp > 0)).length;
-    const headline = display[0];
-    if (triples >= 2) {
-      setBanner(bannerId, 'green', `<span class="badge">${triples} TRIPLE WINS</span>${triples} SKUs gaining sales, margin AND conversion · Top: ${shortDesc(headline.description, 42)}`);
-    } else {
-      setBanner(bannerId, 'green', `<span class="badge">TOP DRIVER</span>${shortDesc(headline.description, 42)} +$${fmtN(headline.sales_diff)} (${(headline.sales_pct > 0 ? '+' : '') + headline.sales_pct.toFixed(0)}%)`);
-    }
-  } else {
-    const triples = display.filter(r => (r.margin_pp !== null && r.margin_pp < 0) && (r.cvr_pp !== null && r.cvr_pp < 0)).length;
-    const headline = display[0];
-    if (triples >= 1) {
-      setBanner(bannerId, 'red', `<span class="badge">${triples} TRIPLE DECLINE${triples>1?'S':''}</span>${triples} SKUs losing sales, margin AND CVR — investigate · Worst: ${shortDesc(headline.description, 38)}`);
-    } else {
-      setBanner(bannerId, 'amber', `<span class="badge">SALES DROPS</span>${shortDesc(headline.description, 42)} −$${fmtN(Math.abs(headline.sales_diff))} · Margin/CVR mostly holding`);
-    }
-  }
   container.innerHTML = display.map(r => {
     const cls = moverCardClass(r, isWinner);
-    const status = moverCardStatus(r, isWinner);
     const sd = r.sales_diff;
     const salesValHTML = sd < 0 ? `<span class="metric-val neg">−$${fmtN(Math.abs(sd))}</span>` : `<span class="metric-val pos">+$${fmtN(sd)}</span>`;
     const salesPct = (sd >= 0 ? '+' : '') + r.sales_pct.toFixed(0) + '%';
@@ -374,12 +360,11 @@ function renderMoverCards(containerId, bannerId, rows, isWinner) {
       : `<span class="metric-val ${clsMetric(r.margin_pp)}">${(r.margin_pp > 0 ? '+' : '') + r.margin_pp.toFixed(1)}pp</span>`;
     const cvrCell = r.cvr_pp === null
       ? `<span class="metric-val flat">—</span>`
-      : `<span class="metric-val ${clsMetric(r.cvr_pp)}">${r.cvr_pct.toFixed(1)}% (${(r.cvr_pp > 0 ? '+' : '') + r.cvr_pp.toFixed(1)})</span>`;
+      : `<span class="metric-val ${clsMetric(r.cvr_pp)}">${r.cvr_pct.toFixed(1)}%<span class="metric-sub">${(r.cvr_pp > 0 ? '+' : '') + r.cvr_pp.toFixed(1)}pp</span></span>`;
     return `<div class="mover-card ${cls}">
       <div class="mover-card-name">${dotHTML(r.brand)}${r.description}</div>
-      <div class="mover-card-status">${status}</div>
       <div class="mover-card-metrics">
-        <div class="mover-metric"><span class="metric-label">Sales Δ</span>${salesValHTML}<span style="font-size:10px; color:#6b7280">${salesPct}</span></div>
+        <div class="mover-metric"><span class="metric-label">Sales Δ</span>${salesValHTML}<span class="metric-sub">${salesPct}</span></div>
         <div class="mover-metric"><span class="metric-label">Margin Δ</span>${marginCell}</div>
         <div class="mover-metric"><span class="metric-label">CVR</span>${cvrCell}</div>
       </div>
@@ -387,42 +372,30 @@ function renderMoverCards(containerId, bannerId, rows, isWinner) {
   }).join('');
 }
 
-function renderOrgSponsoredChart(canvasId, bannerId, rows, selectedBrand) {
+function renderOrgSponsoredChart(canvasId, rows, selectedBrand) {
   destroyChart(canvasId);
   const ctx = document.getElementById(canvasId);
   const filtered = (selectedBrand === '__ALL__') ? rows : rows.filter(r => r.brand === selectedBrand);
-  if (!filtered.length) {
-    setBanner(bannerId, 'gray', '<span class="badge">MIX</span>No data for this brand.');
-    return;
-  }
-  // Banner: highlight any brand whose sponsored % climbed >3pp (concerning shift)
-  const climbing = filtered.filter(r => r.sponsored_pp >= 3);
-  const aggSpon = filtered.reduce((a, r) => a + r.sponsored, 0);
-  const aggTotal = filtered.reduce((a, r) => a + r.total, 0);
-  const aggPct = aggTotal ? (aggSpon / aggTotal * 100) : 0;
-  if (climbing.length) {
-    const names = climbing.map(r => `${r.brand} (+${r.sponsored_pp.toFixed(1)}pp)`).join(', ');
-    setBanner(bannerId, 'amber', `<span class="badge">PAID-MIX RISING</span>${names} · Aggregate sponsored mix ${aggPct.toFixed(1)}%`);
-  } else {
-    setBanner(bannerId, 'green', `<span class="badge">ORGANIC HOLDING</span>Aggregate sponsored mix ${aggPct.toFixed(1)}% · No brand up >3pp`);
-  }
+  if (!filtered.length) return;
   const labels = filtered.map(r => r.brand);
   page1Charts[canvasId] = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
       datasets: [
-        { label: 'Organic', data: filtered.map(r => r.organic), backgroundColor: '#0ea5e9' },
-        { label: 'Sponsored', data: filtered.map(r => r.sponsored), backgroundColor: '#f59e0b' },
+        { label: 'Organic', data: filtered.map(r => r.organic), backgroundColor: '#111827', borderRadius: 2, barThickness: 18 },
+        { label: 'Sponsored', data: filtered.map(r => r.sponsored), backgroundColor: '#d1d5db', borderRadius: 2, barThickness: 18 },
       ]
     },
     options: {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
+      layout: { padding: { top: 4, right: 4 } },
       plugins: {
-        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+        legend: { position: 'bottom', labels: { boxWidth: 10, boxHeight: 10, font: { size: 11 }, color: '#6b7280' } },
         tooltip: {
+          backgroundColor: '#111827', titleFont: { size: 11 }, bodyFont: { size: 11 }, padding: 8, cornerRadius: 4,
           callbacks: {
             label: (item) => {
               const r = filtered[item.dataIndex];
@@ -438,54 +411,42 @@ function renderOrgSponsoredChart(canvasId, bannerId, rows, selectedBrand) {
         }
       },
       scales: {
-        x: { stacked: true, ticks: { callback: (v) => '$' + fmtN(v), font: { size: 10 } }, grid: { color: '#f3f4f6' } },
-        y: { stacked: true, ticks: { font: { size: 11, weight: '600' } }, grid: { display: false } }
+        x: { stacked: true, border: { display: false }, ticks: { callback: (v) => '$' + fmtN(v), font: { size: 10 }, color: '#9ca3af' }, grid: { color: '#f3f4f6', drawTicks: false } },
+        y: { stacked: true, border: { display: false }, ticks: { font: { size: 11 }, color: '#374151' }, grid: { display: false } }
       }
     }
   });
 }
 
-function renderProjActualChart(canvasId, bannerId, rows, selectedBrand) {
+function renderProjActualChart(canvasId, rows, selectedBrand) {
   destroyChart(canvasId);
   const ctx = document.getElementById(canvasId);
   const filtered = (selectedBrand === '__ALL__') ? rows : rows.filter(r => r.brand === selectedBrand);
-  if (!filtered.length) {
-    setBanner(bannerId, 'gray', '<span class="badge">PACING</span>No April projections for this brand.');
-    return;
-  }
+  if (!filtered.length) return;
   // Show top 8 SKUs by April projection size (most material to brand managers)
   const display = filtered.slice(0, 8);
-  // Banner: count SKUs pacing < 80% (red) and > 110% (green)
-  const behind = display.filter(r => r.pacing_pct < 80);
-  const ahead = display.filter(r => r.pacing_pct > 110);
-  if (behind.length >= 3) {
-    const worst = behind.slice().sort((a, b) => a.pacing_pct - b.pacing_pct)[0];
-    setBanner(bannerId, 'red', `<span class="badge">${behind.length} BEHIND</span>${behind.length} of ${display.length} SKUs pacing <80% · Worst: ${shortDesc(worst.description, 35)} ${worst.pacing_pct.toFixed(0)}%`);
-  } else if (behind.length) {
-    setBanner(bannerId, 'amber', `<span class="badge">${behind.length} BEHIND</span>${behind.length} SKU${behind.length>1?'s':''} pacing <80% · ${ahead.length} ahead of plan`);
-  } else {
-    setBanner(bannerId, 'green', `<span class="badge">ON TRACK</span>${ahead.length}/${display.length} SKUs pacing >110% · No SKU below 80%`);
-  }
   const labels = display.map(r => shortDesc(r.description, 32));
-  const colors = display.map(r => r.pacing_pct < 80 ? '#dc2626' : (r.pacing_pct > 110 ? '#16a34a' : '#f59e0b'));
+  const colors = display.map(r => r.pacing_pct < 80 ? '#ef4444' : (r.pacing_pct > 110 ? '#10b981' : '#d1d5db'));
   page1Charts[canvasId] = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
       datasets: [{
         data: display.map(r => r.pacing_pct),
-        backgroundColor: colors.map(c => c + 'CC'),
-        borderColor: colors,
-        borderWidth: 1,
+        backgroundColor: colors,
+        borderRadius: 2,
+        barThickness: 14,
       }]
     },
     options: {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
+      layout: { padding: { top: 4, right: 4 } },
       plugins: {
         legend: { display: false },
         tooltip: {
+          backgroundColor: '#111827', titleFont: { size: 11 }, bodyFont: { size: 11 }, padding: 8, cornerRadius: 4,
           callbacks: {
             title: (items) => display[items[0].dataIndex].description,
             label: (item) => {
@@ -497,121 +458,66 @@ function renderProjActualChart(canvasId, bannerId, rows, selectedBrand) {
       },
       scales: {
         x: {
-          ticks: { callback: (v) => v + '%', font: { size: 10 } },
-          grid: { color: (ctx) => ctx.tick.value === 100 ? '#1f2937' : '#f3f4f6' },
+          border: { display: false },
+          ticks: { callback: (v) => v + '%', font: { size: 10 }, color: '#9ca3af' },
+          grid: { color: (ctx) => ctx.tick.value === 100 ? '#9ca3af' : '#f3f4f6', drawTicks: false },
           suggestedMax: 150,
         },
-        y: { ticks: { font: { size: 10 } }, grid: { display: false } }
+        y: { border: { display: false }, ticks: { font: { size: 10 }, color: '#374151' }, grid: { display: false } }
       }
     }
   });
 }
 
-function renderStorefront(insightsId, tableId, bannerId, rows, selectedBrand) {
+function renderStorefront(tableId, rows, selectedBrand) {
   // IGK and R+CO are excluded from this view per brand-manager request
   // (storefront source doesn't carry meaningful data for them - $0 visitors/sales).
   const STOREFRONT_EXCLUDE = new Set(['IGK', 'R+CO']);
   const visible = rows.filter(r => !STOREFRONT_EXCLUDE.has(r.brand) && r.visitors > 0);
   const filtered = (selectedBrand === '__ALL__') ? visible : visible.filter(r => r.brand === selectedBrand);
-  const insights = document.getElementById(insightsId);
   const tableHost = document.getElementById(tableId);
-  if (!filtered.length) {
-    insights.innerHTML = '';
-    tableHost.innerHTML = '';
-    setBanner(bannerId, 'gray', '<span class="badge">STOREFRONT</span>No storefront data for this brand.');
-    return;
-  }
-  // ---- Programmatically detect insights ----
-  // 1. Highest visitor count + lowest sales-per-visitor (CONVERSION OPPORTUNITY)
-  const byVisitors = filtered.slice().sort((a, b) => b.visitors - a.visitors);
-  const bySpv = filtered.slice().sort((a, b) => a.sales_per_visitor - b.sales_per_visitor);
-  const byStorePct = filtered.slice().sort((a, b) => b.store_pct_of_brand - a.store_pct_of_brand);
-  const top = byVisitors[0]; const lowestSpv = bySpv[0]; const topShare = byStorePct[0];
-  const insightHTML = [];
-  // --- The "Alo case": traffic king but worst conversion AND drives most of brand
-  const isOpportunityCase = (top.brand === lowestSpv.brand) && top.store_pct_of_brand > 20;
-  if (isOpportunityCase) {
-    const o = top;
-    insightHTML.push(`<div class="insight opportunity"><span class="insight-icon">💡</span><div><strong>${o.brand}: huge conversion opportunity.</strong> Most visitors (${fmtN(o.visitors)}) <em>and</em> the lowest sales/visitor ($${o.sales_per_visitor.toFixed(2)}), yet storefront still drives <strong>${o.store_pct_of_brand.toFixed(1)}% of brand sales</strong>. Improve conversion here = brand-defining lift.</div></div>`);
-  } else if (selectedBrand === '__ALL__') {
-    // Generic version: traffic leader + conversion leader called out separately
-    if (top.brand !== lowestSpv.brand) {
-      insightHTML.push(`<div class="insight opportunity"><span class="insight-icon">💡</span><div><strong>Traffic leader:</strong> ${top.brand} draws ${fmtN(top.visitors)} visitors at $${top.sales_per_visitor.toFixed(2)}/visitor. <strong>${lowestSpv.brand}</strong> has the worst conversion at $${lowestSpv.sales_per_visitor.toFixed(2)}/visitor — push storefront merchandising there.</div></div>`);
-    }
-  }
-  // 2. Best in class sales-per-visitor (template / best practice)
-  const best = filtered.slice().sort((a, b) => b.sales_per_visitor - a.sales_per_visitor)[0];
-  if (best && best.sales_per_visitor > 5) {
-    insightHTML.push(`<div class="insight win"><span class="insight-icon">★</span><div><strong>${best.brand} converts best</strong> at <strong>$${best.sales_per_visitor.toFixed(2)}/visitor</strong> — ${best.visitors > 1000 ? 'study this layout / merchandising as a template.' : 'high-margin niche, but limited reach (' + fmtN(best.visitors) + ' visitors).'}</div></div>`);
-  }
-  // 3. Storefront punching above its weight (high % of brand sales relative to visitors)
-  const punchers = filtered.filter(r => r.store_pct_of_brand >= 14 && r.visitors < 5000 && r.brand !== top.brand);
-  if (punchers.length) {
-    const p = punchers[0];
-    insightHTML.push(`<div class="insight win"><span class="insight-icon">↗</span><div><strong>${p.brand}'s storefront punches above its weight</strong> — only ${fmtN(p.visitors)} visitors but driving ${p.store_pct_of_brand.toFixed(1)}% of brand sales ($${p.sales_per_visitor.toFixed(2)}/visitor). Worth more traffic investment.</div></div>`);
-  }
-  // 4. Under-indexed: large brands with very low storefront share
-  const underIndexed = filtered.filter(r => r.store_pct_of_brand < 5 && r.brand_sales > 100000);
-  if (underIndexed.length) {
-    const u = underIndexed[0];
-    insightHTML.push(`<div class="insight warn"><span class="insight-icon">⚠</span><div><strong>${u.brand} under-indexed on storefront</strong> — only ${u.store_pct_of_brand.toFixed(1)}% of brand sales ($${fmtN(u.brand_sales)} brand) come through the store. Either redirect more PDP traffic to storefront, or accept storefront isn't the channel.</div></div>`);
-  }
-  if (!insightHTML.length) {
-    insightHTML.push(`<div class="insight"><span class="insight-icon">·</span><div>Storefront performance is balanced across visible brands.</div></div>`);
-  }
-  insights.innerHTML = insightHTML.join('');
-  // ---- Top-of-tile banner: lead with the biggest opportunity ----
-  if (isOpportunityCase) {
-    setBanner(bannerId, 'amber', `<span class="badge">OPPORTUNITY</span>${top.brand}: ${fmtN(top.visitors)} visitors but only $${top.sales_per_visitor.toFixed(2)}/visitor — yet drives ${top.store_pct_of_brand.toFixed(0)}% of brand sales`);
-  } else if (underIndexed.length) {
-    setBanner(bannerId, 'red', `<span class="badge">UNDER-INDEXED</span>${underIndexed.map(u => u.brand).join(', ')} - large brand(s) with <5% storefront share`);
-  } else if (best && best.sales_per_visitor > 8) {
-    setBanner(bannerId, 'green', `<span class="badge">BEST CONVERTER</span>${best.brand}: $${best.sales_per_visitor.toFixed(2)}/visitor — replicate this storefront pattern`);
-  } else {
-    setBanner(bannerId, 'gray', `<span class="badge">STOREFRONT</span>${filtered.length} brand${filtered.length>1?'s':''} with active storefront data`);
-  }
-  // ---- Compact reference table at the bottom ----
-  const sorted = filtered.slice().sort((a, b) => b.brand_sales - a.brand_sales);
+  if (!filtered.length) { tableHost.innerHTML = ''; return; }
+  // Conditional formatting helpers — visuals carry the meaning, no prose.
+  const spvCls = (v) => v < 3 ? 'cf-low' : (v < 8 ? 'cf-mid' : 'cf-high');
+  const pctCls = (v) => v < 5 ? 'cf-low' : (v > 25 ? 'cf-high' : 'cf-mid');
+  // Sorted by visitors descending so the row with the most traffic is on top
+  // (where conversion opportunities are most material).
+  const sorted = filtered.slice().sort((a, b) => b.visitors - a.visitors);
+  // Find max for in-cell visitor bars (relative scale visualizes traffic gap).
+  const maxVisitors = Math.max(...sorted.map(r => r.visitors), 1);
   let tbl = `<table><thead><tr><th>Brand</th><th class="num">Visitors</th><th class="num">$/visitor</th><th class="num">Store Sales</th><th class="num">Brand Sales</th><th class="num">Store %</th></tr></thead><tbody>`;
-  tbl += sorted.map(r => `<tr>
+  tbl += sorted.map(r => {
+    const visPct = (r.visitors / maxVisitors * 100).toFixed(1);
+    return `<tr>
       <td>${dotHTML(r.brand)}${r.brand}</td>
-      <td class="num">${fmtN(r.visitors)}</td>
-      <td class="num">$${r.sales_per_visitor.toFixed(2)}</td>
+      <td class="num"><span class="cf-bar"><span class="cf-bar-fill" style="width:${visPct}%"></span><span class="cf-bar-label">${fmtN(r.visitors)}</span></span></td>
+      <td class="num ${spvCls(r.sales_per_visitor)}">$${r.sales_per_visitor.toFixed(2)}</td>
       <td class="num">$${fmtN(r.store_sales)}</td>
       <td class="num">$${fmtN(r.brand_sales)}</td>
-      <td class="num">${r.store_pct_of_brand.toFixed(1)}%</td>
-    </tr>`).join('');
+      <td class="num ${pctCls(r.store_pct_of_brand)}">${r.store_pct_of_brand.toFixed(1)}%</td>
+    </tr>`;
+  }).join('');
   tbl += `</tbody></table>`;
   tableHost.innerHTML = tbl;
 }
 
-function renderCvr(bodyId, bannerId, rows, selectedBrand) {
+function renderCvr(bodyId, rows, selectedBrand) {
   const body = document.getElementById(bodyId);
   const filtered = (selectedBrand === '__ALL__') ? rows : rows.filter(r => r.brand === selectedBrand);
   if (!filtered.length) {
     body.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#6b7280;">No SKUs meet the session threshold.</td></tr>';
-    setBanner(bannerId, 'gray', '<span class="badge">CVR</span>No SKUs with sufficient session volume.');
     return;
   }
-  // Sort worst CVR first now that BuyBox is gone - surfaces conversion issues directly.
+  // Sort worst CVR first - issues surface at top.
   const sorted = filtered.slice().sort((a, b) => a.cvr_pct - b.cvr_pct);
-  // ---- Banner: count high-traffic SKUs underperforming on conversion ----
-  const struggling = sorted.filter(r => r.cvr_pct < 2 && r.sessions >= 500);
-  const declining = sorted.filter(r => r.cvr_pp <= -1);
-  if (struggling.length) {
-    const wastedSessions = struggling.reduce((a, r) => a + r.sessions, 0);
-    setBanner(bannerId, 'red', `<span class="badge">${struggling.length} CRITICAL</span>${struggling.length} SKU${struggling.length>1?'s':''} below 2% CVR with 500+ sessions · ${fmtN(wastedSessions)} sessions converting poorly`);
-  } else if (declining.length >= 3) {
-    setBanner(bannerId, 'amber', `<span class="badge">${declining.length} DECLINING</span>${declining.length} SKUs down 1pp+ vs prior window - investigate listings/pricing`);
-  } else {
-    setBanner(bannerId, 'green', `<span class="badge">CVR HEALTHY</span>No SKUs below 2% CVR at >500 sessions`);
-  }
+  const maxSessions = Math.max(...sorted.map(r => r.sessions), 1);
   body.innerHTML = sorted.map(r => {
-    const cvrCls = r.cvr_pct < 2 ? 'neg' : (r.cvr_pct < 5 ? 'flat' : '');
+    const cvrCls = r.cvr_pct < 2 ? 'cf-low' : (r.cvr_pct < 5 ? 'cf-mid' : 'cf-high');
+    const sessPct = (r.sessions / maxSessions * 100).toFixed(1);
     return `<tr>
       <td class="desc">${dotHTML(r.brand)}${r.description}</td>
-      <td class="num">${fmtN(r.sessions)}</td>
-      <td class="num ${cvrCls}" style="font-weight:700">${r.cvr_pct.toFixed(1)}%</td>
+      <td class="num"><span class="cf-bar"><span class="cf-bar-fill neutral" style="width:${sessPct}%"></span><span class="cf-bar-label">${fmtN(r.sessions)}</span></span></td>
+      <td class="num ${cvrCls}">${r.cvr_pct.toFixed(1)}%</td>
       <td class="num ${clsDelta(r.cvr_pp)}">${(r.cvr_pp > 0 ? '+' : '') + r.cvr_pp.toFixed(1)}</td>
     </tr>`;
   }).join('');
@@ -626,29 +532,17 @@ function renderBrand() {
   const priorLabel = win === 'wow' ? 'prior 7' : 'prior 30';
   const isAll = selectedBrand === '__ALL__';
 
-  // Subtitle
   document.getElementById('brand-subtitle').textContent = isAll
-    ? `All 7 brands - ${winLabel} comparison (${currLabel} vs ${priorLabel}). Click a brand chip to drill in.`
-    : `${selectedBrand} - ${winLabel} comparison (${currLabel} vs ${priorLabel}).`;
+    ? `All 7 brands · ${winLabel} (${currLabel} vs ${priorLabel})`
+    : `${selectedBrand} · ${winLabel} (${currLabel} vs ${priorLabel})`;
 
-  // Tile 1 + 2: Top / Bottom XoX movers as action cards (sales x margin x CVR)
   const moverRows = (w.movers[selectedBrand] && w.movers[selectedBrand][win]) || {winners: [], losers: []};
-  renderMoverCards('winners-cards', 'winners-banner', moverRows.winners, true);
-  renderMoverCards('losers-cards', 'losers-banner', moverRows.losers, false);
-
-  // Tile 3: Organic vs Sponsored Sales as stacked horizontal bar
-  renderOrgSponsoredChart('org-sponsored-chart', 'org-sponsored-banner',
-    (w.org_sponsored && w.org_sponsored[win]) || [], selectedBrand);
-
-  // Tile 4: Storefront — opportunity insights + compact reference table
-  renderStorefront('storefront-insights', 'storefront-table', 'storefront-banner',
-    w.storefront || [], selectedBrand);
-  // Tile 5: Projections vs Actuals as bullet-style horizontal bar
-  renderProjActualChart('proj-actual-chart', 'proj-actual-banner',
-    w.proj_vs_actual || [], selectedBrand);
-  // Tile 6: Conversion Rate stays as flagged table
-  const cvrRows = (w.cvr_buybox && w.cvr_buybox[win]) || [];
-  renderCvr('cvr-body', 'cvr-banner', cvrRows, selectedBrand);
+  renderMoverCards('winners-cards', moverRows.winners, true);
+  renderMoverCards('losers-cards', moverRows.losers, false);
+  renderOrgSponsoredChart('org-sponsored-chart', (w.org_sponsored && w.org_sponsored[win]) || [], selectedBrand);
+  renderStorefront('storefront-table', w.storefront || [], selectedBrand);
+  renderProjActualChart('proj-actual-chart', w.proj_vs_actual || [], selectedBrand);
+  renderCvr('cvr-body', (w.cvr_buybox && w.cvr_buybox[win]) || [], selectedBrand);
 }
 
 (function initBrand(){
