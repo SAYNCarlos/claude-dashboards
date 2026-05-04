@@ -1,0 +1,276 @@
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Carroten Marketing Dashboard — Last 30 Days. Sales by channel, TikTok video metrics, top products, Amazon branded searches, and affiliate vs official video sales.</h2>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.dash{padding:20px 16px;font-family:var(--font-sans)}
+.dash-header{margin-bottom:18px}
+.dash-title{font-size:20px;font-weight:500;color:var(--color-text-primary);letter-spacing:-0.3px}
+.dash-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.grid-top{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.grid-bot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px}
+.card-title{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px}
+.channel-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.ch{text-align:center;padding:8px 4px;border-radius:8px;border:0.5px solid var(--color-border-tertiary)}
+.ch-lbl{font-size:10px;color:var(--color-text-secondary);margin-bottom:2px}
+.ch-val{font-size:14px;font-weight:500}
+.leg{display:flex;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+.leg span{font-size:11px;color:var(--color-text-secondary);display:flex;align-items:center;gap:4px}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.chart-wrap{position:relative;width:100%}
+.filter-row{display:flex;gap:6px;margin-bottom:8px;align-items:center;flex-wrap:wrap}
+.filter-row .lbl{font-size:10px;color:var(--color-text-secondary)}
+.pbtn{font-size:10px;padding:3px 9px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;font-family:var(--font-sans)}
+.pbtn.on{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+table.t{width:100%;border-collapse:collapse;font-size:11px}
+table.t th{color:var(--color-text-secondary);font-weight:500;text-align:left;padding:3px 5px 6px;border-bottom:0.5px solid var(--color-border-tertiary);white-space:nowrap}
+table.t td{padding:4px 5px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);line-height:1.3}
+table.t tr:last-child td{border-bottom:none}
+.tr{text-align:right;font-family:var(--font-mono);font-size:10px}
+.bold{font-weight:500}
+.tfoot td{font-weight:500;background:var(--color-background-secondary);padding:5px 5px}
+.rk{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:var(--color-background-secondary);font-size:9px;font-weight:500;color:var(--color-text-secondary)}
+.rk1{background:#FAC775;color:#633806}.rk2{background:#D3D1C7;color:#2C2C2A}.rk3{background:#F0997B;color:#4A1B0C}
+.bar-wrap{width:60px;height:5px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle}
+.bar-fill{height:100%;background:#3266ad;border-radius:3px}
+.sqp-hero{text-align:center;padding:6px 0 2px}
+.sqp-n{font-size:30px;font-weight:500;color:#3266ad;letter-spacing:-1px}
+.sqp-lbl{font-size:11px;color:var(--color-text-secondary);margin-top:1px}
+.sqp-chg{font-size:11px;color:#A32D2D;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:3px}
+.aff-aff{color:#D85A30}.aff-off{color:#3266ad}
+.vs-cell{text-align:center;font-size:9px;color:var(--color-text-secondary)}
+</style>
+
+<div class="dash">
+  <div class="dash-header">
+    <div class="dash-title">Carroten — Marketing Overview</div>
+    <div class="dash-sub">Mar 29 – Apr 27, 2026 &nbsp;·&nbsp; L30D &nbsp;·&nbsp; All channels</div>
+  </div>
+
+  <div class="grid-top">
+
+    <div class="card">
+      <div class="card-title">Sales by channel</div>
+      <div class="channel-row">
+        <div class="ch"><div class="ch-lbl">Target</div><div class="ch-val" style="color:#3266ad">$2.04M</div></div>
+        <div class="ch"><div class="ch-lbl">Amazon</div><div class="ch-val" style="color:#D85A30">$1.29M</div></div>
+        <div class="ch"><div class="ch-lbl">TikTok</div><div class="ch-val" style="color:var(--color-text-primary)">$231.9K</div></div>
+        <div class="ch"><div class="ch-lbl">Carroten.com</div><div class="ch-val" style="color:#0F6E56">$11.6K</div></div>
+      </div>
+      <div class="leg">
+        <span><span class="leg-dot" style="background:#3266ad"></span>Target</span>
+        <span><span class="leg-dot" style="background:#D85A30"></span>Amazon</span>
+        <span><span class="leg-dot" style="background:#888"></span>TikTok</span>
+        <span><span class="leg-dot" style="background:#0F6E56"></span>Carroten.com</span>
+      </div>
+      <div class="chart-wrap" style="height:140px">
+        <canvas id="salesChart" role="img" aria-label="Line chart of daily Carroten sales by channel over 30 days. Target leads at $2.04M total, Amazon $1.29M, TikTok $231.9K, Carroten.com $11.6K.">Daily sales by channel, Mar 29 to Apr 27 2026.</canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">TikTok video performance</div>
+      <div class="filter-row">
+        <span class="lbl">Type:</span>
+        <button class="pbtn on" onclick="fv('type','all',this)">All</button>
+        <button class="pbtn" onclick="fv('type','shoppable',this)">Shoppable</button>
+        <button class="pbtn" onclick="fv('type','organic',this)">Organic</button>
+        <span class="lbl" style="margin-left:4px">Content:</span>
+        <button class="pbtn on" onclick="fv('cat','all',this)">All</button>
+        <button class="pbtn" onclick="fv('cat','bikini',this)">Bikini</button>
+        <button class="pbtn" onclick="fv('cat','other',this)">Other</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="t">
+          <thead><tr>
+            <th>Date</th><th style="max-width:140px">Title</th>
+            <th class="tr">Views</th><th class="tr">Likes</th><th class="tr">Shares</th><th class="tr">Comments</th><th class="tr">Favs</th>
+          </tr></thead>
+          <tbody id="vbody"></tbody>
+          <tfoot id="vfoot"></tfoot>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="grid-bot">
+
+    <div class="card">
+      <div class="card-title">Top 10 products — avg. daily in-stock revenue</div>
+      <table class="t">
+        <thead><tr><th style="width:22px">#</th><th>Product</th><th class="tr">Revenue</th><th style="width:70px"></th></tr></thead>
+        <tbody id="abcbody"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Amazon branded searches — Carroten weekly</div>
+      <div class="sqp-hero">
+        <div class="sqp-n">23.8K</div>
+        <div class="sqp-lbl">searches — week of Apr 19</div>
+        <div class="sqp-chg">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 8l4 4 4-4" stroke="#A32D2D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          –28% vs prior week (33.0K)
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:170px;margin-top:8px">
+        <canvas id="sqpChart" role="img" aria-label="Line chart of weekly Amazon branded searches for Carroten. Peaked at 53K in late March, now 23.8K week of Apr 19.">Weekly Amazon branded searches, Jan–Apr 2026.</canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Shoppable video sales — official vs. affiliates</div>
+      <div style="overflow-x:auto">
+        <table class="t" id="afftable">
+          <thead><tr>
+            <th>Date</th>
+            <th class="tr aff-aff">Affiliate</th>
+            <th class="vs-cell">vs.</th>
+            <th class="tr aff-off">Official</th>
+            <th class="tr">Total</th>
+          </tr></thead>
+          <tbody id="affbody"></tbody>
+          <tfoot id="afftfoot"></tfoot>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const SALES=[{"date":"2026-03-29","label":"3/29","tiktok":10037.77,"target":99546.72,"amazon":60381.73,"site":167.95},{"date":"2026-03-30","label":"3/30","tiktok":9375.18,"target":70177.71,"amazon":63683.04,"site":91.95},{"date":"2026-03-31","label":"3/31","tiktok":7780.98,"target":66621.36,"amazon":61798.53,"site":224.93},{"date":"2026-04-01","label":"4/1","tiktok":5682.93,"target":71595.69,"amazon":51418.96,"site":29.99},{"date":"2026-04-02","label":"4/2","tiktok":7366.3,"target":79594.75,"amazon":51989.73,"site":278.9},{"date":"2026-04-03","label":"4/3","tiktok":8198.93,"target":107448.14,"amazon":51044.06,"site":343.88},{"date":"2026-04-04","label":"4/4","tiktok":8024.91,"target":116595.06,"amazon":50901.6,"site":298.86},{"date":"2026-04-05","label":"4/5","tiktok":6593.61,"target":286.52,"amazon":47772.1,"site":547.8},{"date":"2026-04-06","label":"4/6","tiktok":6098.81,"target":80122.47,"amazon":48328.33,"site":176.91},{"date":"2026-04-07","label":"4/7","tiktok":5386.0,"target":57962.98,"amazon":46839.13,"site":304.86},{"date":"2026-04-08","label":"4/8","tiktok":6553.62,"target":57680.34,"amazon":39148.97,"site":329.88},{"date":"2026-04-09","label":"4/9","tiktok":8027.03,"target":58337.7,"amazon":37892.74,"site":223.94},{"date":"2026-04-10","label":"4/10","tiktok":9782.51,"target":69789.17,"amazon":36924.14,"site":143.93},{"date":"2026-04-11","label":"4/11","tiktok":9986.39,"target":85217.48,"amazon":42270.78,"site":524.8},{"date":"2026-04-12","label":"4/12","tiktok":10724.23,"target":73265.96,"amazon":49531.45,"site":341.84},{"date":"2026-04-13","label":"4/13","tiktok":8790.84,"target":49158.71,"amazon":40934.82,"site":305.85},{"date":"2026-04-14","label":"4/14","tiktok":7980.28,"target":61525.98,"amazon":43186.94,"site":601.79},{"date":"2026-04-15","label":"4/15","tiktok":9367.64,"target":67952.57,"amazon":46100.52,"site":512.82},{"date":"2026-04-16","label":"4/16","tiktok":8857.87,"target":70753.12,"amazon":42954.45,"site":261.9},{"date":"2026-04-17","label":"4/17","tiktok":8803.88,"target":83672.78,"amazon":43013.66,"site":188.93},{"date":"2026-04-18","label":"4/18","tiktok":7223.51,"target":93895.89,"amazon":37864.51,"site":3095.28},{"date":"2026-04-19","label":"4/19","tiktok":7391.43,"target":69662.55,"amazon":37366.25,"site":1011.51},{"date":"2026-04-20","label":"4/20","tiktok":4884.17,"target":48698.65,"amazon":32992.72,"site":139.94},{"date":"2026-04-21","label":"4/21","tiktok":4395.26,"target":50125.79,"amazon":30061.11,"site":470.82},{"date":"2026-04-22","label":"4/22","tiktok":5967.72,"target":52651.63,"amazon":33586.81,"site":215.92},{"date":"2026-04-23","label":"4/23","tiktok":7845.24,"target":55676.46,"amazon":35137.41,"site":97.97},{"date":"2026-04-24","label":"4/24","tiktok":9419.55,"target":62989.49,"amazon":33851.15,"site":202.93},{"date":"2026-04-25","label":"4/25","tiktok":8011.22,"target":73125.11,"amazon":31478.75,"site":161.95},{"date":"2026-04-26","label":"4/26","tiktok":7824.15,"target":59779.7,"amazon":34486.2,"site":122.95},{"date":"2026-04-27","label":"4/27","tiktok":5506.96,"target":43689.89,"amazon":31129.2,"site":175.93}];
+
+const SQP=[{"label":"1/4/26","value":5000},{"label":"1/11/26","value":5097},{"label":"1/18/26","value":5379},{"label":"1/25/26","value":5591},{"label":"2/1/26","value":5602},{"label":"2/8/26","value":6625},{"label":"2/15/26","value":13001},{"label":"2/22/26","value":19236},{"label":"3/1/26","value":29588},{"label":"3/8/26","value":42396},{"label":"3/15/26","value":40553},{"label":"3/22/26","value":53149},{"label":"3/29/26","value":36046},{"label":"4/5/26","value":28707},{"label":"4/12/26","value":33015},{"label":"4/19/26","value":23764}];
+
+const VIDEOS=[
+  {date:'1/1',title:"Carroten is summer… bottled up",views:9844,likes:325,shares:8,comments:16,favs:8,type:'shoppable',cat:'bikini'},
+  {date:'1/2',title:"The results speak for themselves — tan lines? Get your tan on",views:164370,likes:805,shares:13,comments:42,favs:33,type:'shoppable',cat:'bikini'},
+  {date:'1/3',title:"Checking the UV like it's the stock market",views:82303,likes:1539,shares:72,comments:56,favs:36,type:'organic',cat:'other'},
+  {date:'1/4',title:"For indoor tanning: application and protection matter",views:8785,likes:259,shares:0,comments:8,favs:0,type:'shoppable',cat:'other'},
+  {date:'1/5',title:"Self tanning is so last year — Carroten works in winter too",views:9267,likes:340,shares:0,comments:16,favs:24,type:'organic',cat:'other'},
+  {date:'1/6',title:"Glow season never stops — tanning bed + Carroten",views:11773,likes:383,shares:16,comments:64,favs:0,type:'shoppable',cat:'bikini'},
+  {date:'1/8',title:"Did someone say winter glow? We're defrosting our Carroten gel",views:3505,likes:271,shares:0,comments:8,favs:4,type:'organic',cat:'other'},
+];
+
+const ABC=[
+  {name:'Carroten Intensive Tanning Gel SPF0 150ml',rev:33698.93},
+  {name:'Aesop Resurrection Aromatique Hand Wash 500ml',rev:15344.34},
+  {name:'Carroten Gold Shimmer Intensive Tanning Gel SPF0',rev:16125.65},
+  {name:'Aesop Reverence Aromatique Hand Wash 500ml',rev:10080.08},
+  {name:'Carroten Turbo Tan Intensifier 150ml',rev:8176.01},
+  {name:'Carroten Intense Tan Tanning Oil Spray Boost 200ml',rev:6621.92},
+  {name:'Aesop Geranium Leaf Body Cleanser 500ml',rev:4110.65},
+  {name:'IGK First Class Charcoal Detox Dry Shampoo 288ml',rev:4444.86},
+  {name:'IGK Good Behavior Spirulina Protein Smoothing Spray',rev:3494.00},
+  {name:'Aesop Shampoo 500ml',rev:2320.38},
+];
+
+const AFF=[
+  {date:'3/29',aff:17287.05,off:94.89},{date:'3/30',aff:5732.11,off:94.35},
+  {date:'3/31',aff:4443.08,off:65.96},{date:'4/1',aff:6954.52,off:0},
+  {date:'4/2',aff:9437.44,off:0},{date:'4/3',aff:9662.62,off:0},
+  {date:'4/4',aff:9653.32,off:0},{date:'4/5',aff:4442.96,off:0},
+  {date:'4/6',aff:3830.03,off:28.90},{date:'4/7',aff:3220.52,off:0},
+];
+
+function fmt(n){return n>=1000000?'$'+(n/1000000).toFixed(2)+'M':n>=1000?'$'+(n/1000).toFixed(1)+'K':'$'+n.toFixed(2)}
+function fmtK(n){return n>=1000?(n/1000).toFixed(1)+'K':n}
+function fmtC(v){return '$'+parseFloat(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+let tF='all',cF='all';
+function fv(grp,val,btn){
+  const row=btn.closest('.filter-row');
+  row.querySelectorAll('.pbtn').forEach(b=>{if(b.getAttribute('onclick').includes("'"+grp+"'"))b.classList.remove('on')});
+  btn.classList.add('on');
+  if(grp==='type')tF=val; else cF=val;
+  renderV();
+}
+function renderV(){
+  const rows=VIDEOS.filter(r=>(tF==='all'||r.type===tF)&&(cF==='all'||r.cat===cF));
+  const tot={views:0,likes:0,shares:0,comments:0,favs:0};
+  rows.forEach(r=>{tot.views+=r.views;tot.likes+=r.likes;tot.shares+=r.shares;tot.comments+=r.comments;tot.favs+=r.favs});
+  document.getElementById('vbody').innerHTML=rows.map(r=>`<tr>
+    <td style="white-space:nowrap">${r.date}</td>
+    <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.title}">${r.title}</td>
+    <td class="tr">${fmtK(r.views)}</td><td class="tr">${fmtK(r.likes)}</td>
+    <td class="tr">${r.shares}</td><td class="tr">${r.comments}</td><td class="tr">${r.favs}</td>
+  </tr>`).join('');
+  document.getElementById('vfoot').innerHTML=`<tr class="tfoot">
+    <td colspan="2" class="bold">Total (${rows.length})</td>
+    <td class="tr bold">${fmtK(tot.views)}</td><td class="tr bold">${fmtK(tot.likes)}</td>
+    <td class="tr bold">${tot.shares}</td><td class="tr bold">${tot.comments}</td><td class="tr bold">${tot.favs}</td>
+  </tr>`;
+}
+renderV();
+
+const maxR=ABC[0].rev;
+document.getElementById('abcbody').innerHTML=ABC.map((p,i)=>`<tr>
+  <td><span class="rk ${i===0?'rk1':i===1?'rk2':i===2?'rk3':''}">${i+1}</span></td>
+  <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px" title="${p.name}">${p.name}</td>
+  <td class="tr" style="white-space:nowrap">${fmtC(p.rev)}</td>
+  <td style="padding-left:6px"><div class="bar-wrap"><div class="bar-fill" style="width:${Math.round(p.rev/maxR*100)}%"></div></div></td>
+</tr>`).join('');
+
+const totA=AFF.reduce((s,r)=>s+r.aff,0),totO=AFF.reduce((s,r)=>s+r.off,0);
+document.getElementById('affbody').innerHTML=AFF.map(r=>`<tr>
+  <td style="white-space:nowrap">${r.date}</td>
+  <td class="tr aff-aff">${fmtC(r.aff)}</td>
+  <td class="vs-cell">${r.off>0?Math.round(r.aff/r.off)+'×':'—'}</td>
+  <td class="tr aff-off">${r.off>0?fmtC(r.off):'—'}</td>
+  <td class="tr bold">${fmtC(r.aff+r.off)}</td>
+</tr>`).join('');
+document.getElementById('afftfoot').innerHTML=`<tr class="tfoot">
+  <td class="bold">Total</td>
+  <td class="tr bold aff-aff">${fmtC(totA)}</td>
+  <td class="vs-cell">${Math.round(totA/totO)}×</td>
+  <td class="tr bold aff-off">${fmtC(totO)}</td>
+  <td class="tr bold">${fmtC(totA+totO)}</td>
+</tr>`;
+
+const isDark=matchMedia('(prefers-color-scheme:dark)').matches;
+const gc=isDark?'rgba(255,255,255,.07)':'rgba(0,0,0,.06)';
+const tc=isDark?'#777':'#aaa';
+
+new Chart(document.getElementById('salesChart'),{
+  type:'line',
+  data:{
+    labels:SALES.map(d=>d.label),
+    datasets:[
+      {label:'Target',data:SALES.map(d=>d.target),borderColor:'#3266ad',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:.35},
+      {label:'Amazon',data:SALES.map(d=>d.amazon),borderColor:'#D85A30',backgroundColor:'transparent',borderWidth:2,pointRadius:0,tension:.35},
+      {label:'TikTok',data:SALES.map(d=>d.tiktok),borderColor:'#888',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,tension:.35,borderDash:[4,3]},
+      {label:'Carroten.com',data:SALES.map(d=>d.site),borderColor:'#0F6E56',backgroundColor:'transparent',borderWidth:1.5,pointRadius:0,tension:.35,borderDash:[2,3]},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,callbacks:{label:c=>' '+c.dataset.label+': $'+Math.round(c.raw).toLocaleString()}}},
+    scales:{
+      x:{ticks:{color:tc,font:{size:9},maxTicksLimit:8,maxRotation:0},grid:{display:false},border:{display:false}},
+      y:{ticks:{color:tc,font:{size:9},callback:v=>v>=1000?'$'+(v/1000).toFixed(0)+'K':'$'+v},grid:{color:gc},border:{display:false}}
+    }
+  }
+});
+
+new Chart(document.getElementById('sqpChart'),{
+  type:'line',
+  data:{
+    labels:SQP.map(d=>d.label),
+    datasets:[
+      {label:'Branded searches',data:SQP.map(d=>d.value),borderColor:'#D85A30',backgroundColor:isDark?'rgba(216,90,48,.12)':'rgba(216,90,48,.07)',fill:true,borderWidth:2,pointRadius:3,pointBackgroundColor:'#D85A30',tension:.3},
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.toLocaleString()+' searches'}}},
+    scales:{
+      x:{ticks:{color:tc,font:{size:9},maxRotation:35},grid:{display:false},border:{display:false}},
+      y:{ticks:{color:tc,font:{size:9},callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v},min:0,grid:{color:gc},border:{display:false}}
+    }
+  }
+});
+</script>
