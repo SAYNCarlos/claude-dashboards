@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>March Endcap — Incremental Revenue Readout</title>
+<style>
+  :root{
+    --bg:#0E1320; --panel:#151C2C; --panel2:#1B2336;
+    --ink:#EEF1F6; --muted:#8A94A8; --hair:rgba(138,148,168,.18);
+    --slate:#5B6B8C; --gold1:#FFC861; --gold2:#FF9E3D;
+    --coral:#FF6B6B; --teal:#4ED7C4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1,"cv01" 1;}
+  .wrap{max-width:1040px;margin:0 auto;padding:48px 32px 64px;}
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold2);
+    font-weight:700;margin:0 0 14px;}
+  h1{font-size:clamp(28px,4.4vw,46px);line-height:1.05;margin:0 0 14px;font-weight:800;letter-spacing:-.02em;}
+  h1 .hl{color:var(--teal);}
+  .lede{color:var(--muted);max-width:660px;font-size:16px;line-height:1.55;margin:0 0 40px;}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 44px;}
+  .kpi{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:18px 18px 16px;}
+  .kpi .lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi .val{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1;}
+  .kpi .sub{font-size:12.5px;color:var(--muted);margin-top:7px;}
+  .pos{color:var(--gold1)} .neg{color:var(--coral)} .tl{color:var(--teal)}
+  .card{background:var(--panel);border:1px solid var(--hair);border-radius:18px;padding:30px 30px 22px;margin-bottom:26px;}
+  .card h2{font-size:18px;margin:0 0 4px;font-weight:700;letter-spacing:-.01em;}
+  .card .cap{font-size:13px;color:var(--muted);margin:0 0 18px;line-height:1.5;}
+  svg{display:block;width:100%;height:auto;overflow:visible;}
+  .legend{display:flex;gap:22px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:14px;}
+  .legend span{display:inline-flex;align-items:center;gap:8px;}
+  .sw{width:13px;height:13px;border-radius:3px;display:inline-block;}
+  .two{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;}
+  .note p{font-size:14px;color:#C3CAD8;line-height:1.62;margin:0 0 14px;}
+  .note p b{color:var(--ink);}
+  .tag{display:inline-block;font-size:11px;letter-spacing:.06em;padding:3px 9px;border-radius:999px;
+    background:rgba(78,215,196,.12);color:var(--teal);border:1px solid rgba(78,215,196,.3);margin-bottom:14px;}
+  .foot{font-size:12px;color:var(--muted);margin-top:30px;line-height:1.6;border-top:1px solid var(--hair);padding-top:18px;}
+  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Event Measurement &middot; Mar 1 – May 31, 2026</p>
+  <h1>The March Endcap drove <span class="hl">~$865K</span> in incremental revenue</h1>
+  <p class="lede">Endcap stores sold $3.18M during the event — but ~$2.31M of that was growth they'd have earned anyway, given seasonality, year-over-year market growth, and the new product launch (measured from the non-endcap control stores). The endcap's true contribution is the gap above that counterfactual.</p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Incremental revenue</div><div class="val tl">$865K</div><div class="sub">+37% above expected</div></div>
+    <div class="kpi"><div class="lab">Endcap actual</div><div class="val">$3.18M</div><div class="sub">626 matched stores</div></div>
+    <div class="kpi"><div class="lab">Counterfactual</div><div class="val">$2.31M</div><div class="sub">at control's YoY rate</div></div>
+    <div class="kpi"><div class="lab">Significance</div><div class="val">p&lt;0.001</div><div class="sub">store-level lift</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Where the lift came from</h2>
+    <p class="cap">Waterfall from the expected (counterfactual) baseline to actual sales, broken out by product. Every dollar of lift comes from the four newly launched SKUs; the two legacy "OG" products ran slightly below baseline — a small cannibalization drag.</p>
+    <svg id="waterfall" viewBox="0 0 980 440" role="img" aria-label="Waterfall of incremental revenue by SKU"></svg>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--slate)"></i>Expected &amp; actual</span>
+      <span><i class="sw" style="background:linear-gradient(180deg,var(--gold1),var(--gold2))"></i>New-product lift</span>
+      <span><i class="sw" style="background:var(--coral)"></i>Legacy drag</span>
+    </div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <h2>Why raw year-over-year misleads</h2>
+      <p class="cap">Sales per store, same Mar–May window. The two groups started 2026 nearly identical (~$2,600/store) — then endcap stores pulled far ahead. Both grew because new SKUs launched chain-wide; only the gap is the endcap.</p>
+      <svg id="yoy" viewBox="0 0 460 300" role="img" aria-label="Test versus control per-store sales"></svg>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--slate)"></i>2025 / store</span>
+        <span><i class="sw" style="background:var(--teal)"></i>2026 / store</span>
+      </div>
+    </div>
+    <div class="card note">
+      <span class="tag">It's a launch story</span>
+      <p><b>The endcap was the launch vehicle.</b> In endcap stores the four new SKUs — SPF0, Turbo, and the two Minis — sold <b>83–122% more per store</b> than in control stores.</p>
+      <p><b>Legacy products dipped slightly</b> (Intensive OG &minus;$60K, Shimmer OG &minus;$25K vs. baseline), suggesting the display shifted attention toward the new line.</p>
+      <p><b>Robust, not noise.</b> Median endcap store grew 1.88&times; vs. 1.39&times; for controls (Mann–Whitney p&nbsp;&asymp;&nbsp;10⁻⁹¹).</p>
+      <p>A conservative floor of <b>~$780K</b> applies if you credit the ~3.7% faster pre-event trend in endcap stores to something other than the event.</p>
+    </div>
+  </div>
+
+  <p class="foot">Method: difference-in-differences on a matched panel of stores selling in both years, comparing the identical Mar 1–May 31 window across 2025 and 2026. The chain-wide Circle BOGO promo covers both groups near-uniformly and nets out. Counterfactual = each SKU's 2025 endcap-store sales grown at the control group's SKU-level YoY rate; new SKUs benchmarked to control per-store rates.</p>
+</div>
+
+<script>
+const f=(n)=>'$'+(Math.round(n/1000)).toLocaleString()+'K';
+const fM=(n)=>'$'+(n/1e6).toFixed(2)+'M';
+
+/* ---------- WATERFALL ---------- */
+(function(){
+  const steps=[
+    {label:'Expected\n(counterfactual)', type:'total', val:2311772},
+    {label:'Intensive\nMini', type:'pos', val:272324},
+    {label:'SPF0', type:'pos', val:252377},
+    {label:'Turbo', type:'pos', val:235953},
+    {label:'Shimmer\nMini', type:'pos', val:189135},
+    {label:'Shimmer\nOG', type:'neg', val:-24783},
+    {label:'Intensive\nOG', type:'neg', val:-59964},
+    {label:'Endcap\nactual', type:'total', val:3176814},
+  ];
+  const W=980,H=440,L=64,R=20,T=24,B=92;
+  const pw=W-L-R, ph=H-T-B;
+  const max=3400000;
+  const y=v=>T+ph*(1-v/max);
+  const svg=document.getElementById('waterfall');
+  const ns='http://www.w3.org/2000/svg';
+  const add=(t,a)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e;};
+  // gradient
+  const defs=document.createElementNS(ns,'defs');
+  defs.innerHTML='<linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC861"/><stop offset="1" stop-color="#FF9E3D"/></linearGradient>';
+  svg.appendChild(defs);
+  // gridlines
+  for(let g=0;g<=3400000;g+=850000){
+    add('line',{x1:L,y1:y(g),x2:W-R,y2:y(g),stroke:'rgba(138,148,168,.13)','stroke-width':1});
+    add('text',{x:L-10,y:y(g)+4,fill:'#8A94A8','font-size':11,'text-anchor':'end'}).textContent=fM(g);
+  }
+  const n=steps.length, gap=18, bw=(pw-gap*(n-1))/n;
+  let run=0;
+  steps.forEach((s,i)=>{
+    const x=L+i*(bw+gap);
+    let top,bot,fill;
+    if(s.type==='total'){ top=y(s.val); bot=y(0); fill='#5B6B8C'; if(i===n-1)fill='#4ED7C4'; run=s.val; }
+    else if(s.type==='pos'){ bot=y(run); run+=s.val; top=y(run); fill='url(#g)'; }
+    else { top=y(run); run+=s.val; bot=y(run); fill='#FF6B6B'; }
+    const h=Math.max(bot-top,2);
+    add('rect',{x:x,y:top,width:bw,height:h,rx:4,fill:fill});
+    // connector
+    if(i<n-1 && s.type!=='total' || (s.type==='total'&&i===0)){
+      add('line',{x1:x+bw,y1:(s.type==='neg')?bot:top,x2:x+bw+gap,y2:(s.type==='neg')?bot:top,stroke:'rgba(238,241,246,.25)','stroke-width':1,'stroke-dasharray':'2 3'});
+    } else if(s.type!=='total'){
+      add('line',{x1:x+bw,y1:(s.type==='neg')?bot:top,x2:x+bw+gap,y2:(s.type==='neg')?bot:top,stroke:'rgba(238,241,246,.25)','stroke-width':1,'stroke-dasharray':'2 3'});
+    }
+    // value label
+    const vy=(s.type==='total')?top-10:( (s.type==='pos')?top-8:bot+16 );
+    const vt=(s.type==='total')?fM(s.val):((s.val>0?'+':'\u2212')+'$'+Math.abs(Math.round(s.val/1000))+'K');
+    add('text',{x:x+bw/2,y:vy,fill:(s.type==='neg')?'#FF8A8A':(s.type==='pos'?'#FFC861':'#EEF1F6'),'font-size':(s.type==='total'?13:12),'font-weight':700,'text-anchor':'middle'}).textContent=vt;
+    // x label (multi-line)
+    s.label.split('\n').forEach((ln,j)=>{
+      add('text',{x:x+bw/2,y:H-B+22+j*14,fill:'#8A94A8','font-size':11.5,'text-anchor':'middle'}).textContent=ln;
+    });
+  });
+  // incremental bracket
+  const xs=L, xe=L+(n-1)*(bw+gap);
+  add('text',{x:(xs+xe)/2,y:T-6,fill:'#4ED7C4','font-size':12.5,'font-weight':700,'text-anchor':'middle'}).textContent='Incremental from endcap: +$865K (+37%)';
+})();
+
+/* ---------- YOY TEST vs CONTROL ---------- */
+(function(){
+  const data=[
+    {g:'Endcap stores',a:2694,b:5075,note:'+88% per store'},
+    {g:'Control stores',a:2555,b:3515,note:'+38% per store'}
+  ];
+  const W=460,H=300,L=10,R=14,T=28,B=46;
+  const pw=W-L-R, ph=H-T-B, max=5500;
+  const y=v=>T+ph*(1-v/max);
+  const svg=document.getElementById('yoy');
+  const ns='http://www.w3.org/2000/svg';
+  const add=(t,a)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e;};
+  for(let g=0;g<=5500;g+=1375){
+    add('line',{x1:L,y1:y(g),x2:W-R,y2:y(g),stroke:'rgba(138,148,168,.13)'});
+  }
+  const groups=data.length, gw=pw/groups, bw=46, gap=14;
+  data.forEach((d,i)=>{
+    const cx=L+gw*i+gw/2;
+    const x1=cx-bw-gap/2, x2=cx+gap/2;
+    [['a','#5B6B8C',x1],['b','#4ED7C4',x2]].forEach(([k,c,xx])=>{
+      const top=y(d[k]);
+      add('rect',{x:xx,y:top,width:bw,height:y(0)-top,rx:4,fill:c});
+      add('text',{x:xx+bw/2,y:top-7,fill:'#C3CAD8','font-size':11,'font-weight':600,'text-anchor':'middle'}).textContent='$'+d[k].toLocaleString();
+    });
+    add('text',{x:cx,y:H-B+20,fill:'#EEF1F6','font-size':12.5,'font-weight':600,'text-anchor':'middle'}).textContent=d.g;
+    add('text',{x:cx,y:H-B+36,fill:'#8A94A8','font-size':11,'text-anchor':'middle'}).textContent=d.note;
+  });
+  add('text',{x:L,y:14,fill:'#8A94A8','font-size':11}).textContent='Sales per store, Mar–May';
+})();
+</script>
+</body>
+</html>
