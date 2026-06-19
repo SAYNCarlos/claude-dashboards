@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>March Sampling — Incremental Revenue Readout</title>
+<style>
+  :root{
+    --bg:#0E1320; --panel:#151C2C; --ink:#EEF1F6; --muted:#8A94A8; --hair:rgba(138,148,168,.18);
+    --slate:#5B6B8C; --gold1:#FFC861; --gold2:#FF9E3D; --coral:#FF6B6B; --teal:#4ED7C4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1;}
+  .wrap{max-width:1040px;margin:0 auto;padding:48px 32px 64px;}
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin:0 0 14px;}
+  h1{font-size:clamp(26px,4.2vw,42px);line-height:1.07;margin:0 0 14px;font-weight:800;letter-spacing:-.02em;}
+  h1 .hl{color:var(--gold1);}
+  .lede{color:var(--muted);max-width:680px;font-size:16px;line-height:1.55;margin:0 0 40px;}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 44px;}
+  .kpi{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:18px;}
+  .kpi .lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi .val{font-size:25px;font-weight:800;letter-spacing:-.02em;line-height:1;}
+  .kpi .sub{font-size:12.5px;color:var(--muted);margin-top:7px;}
+  .pos{color:var(--gold1)} .warn{color:var(--coral)}
+  .card{background:var(--panel);border:1px solid var(--hair);border-radius:18px;padding:30px 30px 22px;margin-bottom:26px;}
+  .card h2{font-size:18px;margin:0 0 4px;font-weight:700;letter-spacing:-.01em;}
+  .card .cap{font-size:13px;color:var(--muted);margin:0 0 18px;line-height:1.5;}
+  svg{display:block;width:100%;height:auto;overflow:visible;}
+  .legend{display:flex;gap:22px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:14px;}
+  .legend span{display:inline-flex;align-items:center;gap:8px;}
+  .sw{width:13px;height:13px;border-radius:3px;display:inline-block;}
+  .ln{width:18px;height:3px;border-radius:2px;display:inline-block;}
+  .two{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;}
+  .note p{font-size:14px;color:#C3CAD8;line-height:1.62;margin:0 0 14px;}
+  .note p b{color:var(--ink);}
+  .tag{display:inline-block;font-size:11px;letter-spacing:.06em;padding:3px 9px;border-radius:999px;
+    background:rgba(255,107,107,.12);color:var(--coral);border:1px solid rgba(255,107,107,.3);margin-bottom:14px;}
+  .foot{font-size:12px;color:var(--muted);margin-top:30px;line-height:1.6;border-top:1px solid var(--hair);padding-top:18px;}
+  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Event Measurement &middot; One-day sampling, 3/21/2026</p>
+  <h1>The Sampling event gave a <span class="hl">~$9K</span> one-week nudge — then it faded</h1>
+  <p class="lede">A single-day in-store sampling at 37 stores (excluding 13 that also ran the endcap). The sampling stores were already ~2× the size of typical stores, so only their growth relative to control is meaningful. There was a genuine bump the week of the event, but it decayed to nothing within a month and isn't statistically robust.</p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Sampling-week lift</div><div class="val pos">+$9.3K</div><div class="sub">+65% vs expected</div></div>
+    <div class="kpi"><div class="lab">4-week net</div><div class="val">~$5–13K</div><div class="sub">assumption-sensitive</div></div>
+    <div class="kpi"><div class="lab">Store-level effect</div><div class="val warn">Not sig.</div><div class="sub">p &asymp; 0.50</div></div>
+    <div class="kpi"><div class="lab">vs the Endcap</div><div class="val">~1%</div><div class="sub">of the $865K lift</div></div>
+  </div>
+
+  <div class="card">
+    <h2>A spike that doesn't stick</h2>
+    <p class="cap">Incremental revenue by week after the sampling day, vs. the control group's year-over-year growth (difference-in-differences). Week 1 carries the whole effect; the following weeks give it back. The line tracks the running cumulative total.</p>
+    <svg id="decay" viewBox="0 0 980 430" role="img" aria-label="Weekly incremental revenue after sampling"></svg>
+    <div class="legend">
+      <span><i class="sw" style="background:linear-gradient(180deg,var(--gold1),var(--gold2))"></i>Incremental gain</span>
+      <span><i class="sw" style="background:var(--coral)"></i>Incremental loss</span>
+      <span><i class="ln" style="background:var(--teal)"></i>Cumulative</span>
+    </div>
+  </div>
+
+  <div class="two">
+    <div class="card note">
+      <span class="tag">Read with caution</span>
+      <p><b>The typical store saw no lift.</b> Median sampling-store growth was 1.37× vs. 1.42× for control — the bump comes from a few stores, not broad trial conversion (Mann–Whitney p&nbsp;&asymp;&nbsp;0.50).</p>
+      <p><b>Why the range?</b> Sampling stores historically grow at ~85% of control's rate. Hold them to control's rate and the 4-week net is ~$5K; credit their slower baseline and it's ~$13K. The spread reflects how thin the signal is.</p>
+      <p><b>Bottom line:</b> a real but minor, short-lived trial effect — useful for awareness, not a revenue driver on its own.</p>
+    </div>
+    <div class="card">
+      <h2>Same-week, the bump is visible</h2>
+      <p class="cap">Sales per store, sampling week (3/21–3/27), 2025 vs 2026.</p>
+      <svg id="week" viewBox="0 0 420 280" role="img" aria-label="Sampling week per-store sales"></svg>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--slate)"></i>2025 / store</span>
+        <span><i class="sw" style="background:var(--teal)"></i>2026 / store</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot">Method: difference-in-differences on 37 sampling-only stores selling in both years vs. 1,256 control stores (no sampling, no endcap), matched on the identical calendar windows in 2025 and 2026. The chain-wide Circle BOGO promo covers both groups and nets out. Counterfactual = sampling stores' 2025 sales grown at the control group's YoY rate; the trend-adjusted figure additionally corrects for sampling stores' slower historical growth.</p>
+</div>
+
+<script>
+const ns='http://www.w3.org/2000/svg';
+
+/* WEEKLY DECAY (bars + cumulative line) */
+(function(){
+  const weeks=[
+    {l:['Week 1','3/21–3/27'],v:9284},
+    {l:['Week 2','3/28–4/3'],v:-673},
+    {l:['Week 3','4/4–4/10'],v:-722},
+    {l:['Week 4','4/11–4/18'],v:-2960},
+  ];
+  let c=0; const cum=weeks.map(w=>c+=w.v);  // 9284,8611,7889,4929
+  const W=980,H=430,L=70,R=24,T=34,B=70, pw=W-L-R, ph=H-T-B;
+  const lo=-4000, hi=10000;
+  const y=v=>T+ph*(1-(v-lo)/(hi-lo));
+  const svg=document.getElementById('decay');
+  const add=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;};
+  const defs=document.createElementNS(ns,'defs');
+  defs.innerHTML='<linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC861"/><stop offset="1" stop-color="#FF9E3D"/></linearGradient>';
+  svg.appendChild(defs);
+  for(let g=-4000;g<=10000;g+=2000){
+    add('line',{x1:L,y1:y(g),x2:W-R,y2:y(g),stroke:g===0?'rgba(238,241,246,.35)':'rgba(138,148,168,.13)','stroke-width':g===0?1.3:1});
+    add('text',{x:L-10,y:y(g)+4,fill:'#8A94A8','font-size':11,'text-anchor':'end'}, (g<0?'\u2212$':'$')+Math.abs(g/1000)+'K');
+  }
+  const n=weeks.length, gap=46, bw=(pw-gap*(n-1))/n;
+  const cx=[];
+  weeks.forEach((w,i)=>{
+    const x=L+i*(bw+gap); cx.push(x+bw/2);
+    const top=w.v>=0?y(w.v):y(0); const h=Math.abs(y(w.v)-y(0));
+    add('rect',{x:x,y:top,width:bw,height:Math.max(h,2),rx:4,fill:w.v>=0?'url(#gg)':'#FF6B6B'});
+    add('text',{x:x+bw/2,y:w.v>=0?y(w.v)-9:y(w.v)+17,fill:w.v>=0?'#FFC861':'#FF8A8A','font-size':13,'font-weight':700,'text-anchor':'middle'},(w.v>=0?'+$':'\u2212$')+Math.abs(Math.round(w.v/100)/10)+'K');
+    w.l.forEach((ln,j)=>add('text',{x:x+bw/2,y:H-B+24+j*15,fill:j===0?'#EEF1F6':'#8A94A8','font-size':j===0?12.5:11,'font-weight':j===0?600:400,'text-anchor':'middle'},ln));
+  });
+  // cumulative line
+  let d='';
+  cum.forEach((v,i)=>{ d+=(i?'L':'M')+cx[i]+' '+y(v)+' '; });
+  add('path',{d:d,fill:'none',stroke:'#4ED7C4','stroke-width':2.5,'stroke-linejoin':'round'});
+  cum.forEach((v,i)=>{
+    add('circle',{cx:cx[i],cy:y(v),r:4.5,fill:'#0E1320',stroke:'#4ED7C4','stroke-width':2.5});
+    add('text',{x:cx[i],y:y(v)-12,fill:'#4ED7C4','font-size':11.5,'font-weight':700,'text-anchor':'middle'},'$'+(Math.round(v/100)/10)+'K');
+  });
+  add('text',{x:L,y:T-14,fill:'#8A94A8','font-size':11},'Incremental revenue vs. control-based counterfactual');
+})();
+
+/* SAMPLING WEEK per-store bars */
+(function(){
+  // test 2025/2026 and control 2025/2026 per store, week 3/21-3/27
+  // test: 37 stores; control: 1256 stores
+  const d=[
+    {g:'Sampling stores',a:213,b:639,note:'+200% per store'},
+    {g:'Control stores',a:180,b:328,note:'+82% per store'}
+  ];
+  const W=420,H=280,L=10,R=14,T=26,B=46, pw=W-L-R, ph=H-T-B, max=720;
+  const y=v=>T+ph*(1-v/max);
+  const svg=document.getElementById('week');
+  const add=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;};
+  for(let g=0;g<=720;g+=240) add('line',{x1:L,y1:y(g),x2:W-R,y2:y(g),stroke:'rgba(138,148,168,.13)'});
+  const gw=pw/2, bw=44, gap=14;
+  d.forEach((dd,i)=>{
+    const c=L+gw*i+gw/2;
+    [['a','#5B6B8C',c-bw-gap/2],['b','#4ED7C4',c+gap/2]].forEach(([k,col,xx])=>{
+      const top=y(dd[k]); add('rect',{x:xx,y:top,width:bw,height:y(0)-top,rx:4,fill:col});
+      add('text',{x:xx+bw/2,y:top-7,fill:'#C3CAD8','font-size':11,'font-weight':600,'text-anchor':'middle'},'$'+dd[k]);
+    });
+    add('text',{x:c,y:H-B+20,fill:'#EEF1F6','font-size':12,'font-weight':600,'text-anchor':'middle'},dd.g);
+    add('text',{x:c,y:H-B+36,fill:'#8A94A8','font-size':10.5,'text-anchor':'middle'},dd.note);
+  });
+  add('text',{x:L,y:13,fill:'#8A94A8','font-size':11},'Sales per store, sampling week');
+})();
+</script>
+</body>
+</html>
