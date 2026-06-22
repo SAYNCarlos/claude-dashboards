@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suncart Event — Early Read</title>
+<style>
+  :root{
+    --bg:#0E1320; --panel:#151C2C; --ink:#EEF1F6; --muted:#8A94A8; --hair:rgba(138,148,168,.18);
+    --slate:#5B6B8C; --gold1:#FFC861; --gold2:#FF9E3D; --coral:#FF6B6B; --teal:#4ED7C4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1;}
+  .wrap{max-width:1040px;margin:0 auto;padding:48px 32px 64px;}
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin:0 0 14px;}
+  h1{font-size:clamp(25px,4vw,40px);line-height:1.08;margin:0 0 14px;font-weight:800;letter-spacing:-.02em;}
+  h1 .hl{color:var(--teal);}
+  .lede{color:var(--muted);max-width:700px;font-size:16px;line-height:1.55;margin:0 0 18px;}
+  .banner{display:flex;gap:12px;align-items:flex-start;background:rgba(255,158,61,.08);border:1px solid rgba(255,158,61,.28);
+    border-radius:12px;padding:14px 16px;margin:0 0 38px;font-size:13.5px;color:#E8D9C2;line-height:1.5;}
+  .banner b{color:var(--gold1)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 44px;}
+  .kpi{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:18px;}
+  .kpi .lab{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+  .kpi .val{font-size:23px;font-weight:800;letter-spacing:-.02em;line-height:1.05;}
+  .kpi .sub{font-size:12.5px;color:var(--muted);margin-top:7px;}
+  .tl{color:var(--teal)} .gd{color:var(--gold1)}
+  .card{background:var(--panel);border:1px solid var(--hair);border-radius:18px;padding:30px 30px 22px;margin-bottom:26px;}
+  .card h2{font-size:18px;margin:0 0 4px;font-weight:700;letter-spacing:-.01em;}
+  .card .cap{font-size:13px;color:var(--muted);margin:0 0 18px;line-height:1.5;}
+  svg{display:block;width:100%;height:auto;overflow:visible;}
+  .legend{display:flex;gap:22px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:14px;}
+  .legend span{display:inline-flex;align-items:center;gap:8px;}
+  .ln{width:18px;height:3px;border-radius:2px;display:inline-block;}.sw{width:13px;height:13px;border-radius:3px;display:inline-block;}
+  .two{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;}
+  .note p{font-size:14px;color:#C3CAD8;line-height:1.6;margin:0 0 13px;}
+  .note p b{color:var(--ink);}
+  .tag{display:inline-block;font-size:11px;letter-spacing:.06em;padding:3px 9px;border-radius:999px;
+    background:rgba(255,107,107,.12);color:var(--coral);border:1px solid rgba(255,107,107,.3);margin-bottom:14px;}
+  .foot{font-size:12px;color:var(--muted);margin-top:30px;line-height:1.6;border-top:1px solid var(--hair);padding-top:18px;}
+  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Event Measurement &middot; Suncart, all stores, partial &middot; through 6/21/2026</p>
+  <h1>The Suncart SKUs <span class="hl">doubled</span> the week the event launched — but how much is "incremental" can't be pinned down yet</h1>
+  <p class="lede">The event runs 5/10–8/1/2026 at all stores on four SKUs; data covers the first 43 of 84 days. Because it's chain-wide, there's no control group of untreated stores — so I used the two SKUs <i>not</i> in the event (the Minis) as a within-store control. They tracked the event SKUs almost perfectly until 5/10, then split apart.</p>
+  <div class="banner"><span>&#9888;</span><div><b>Why a single incremental number would mislead.</b> Two of the four event SKUs (SPF0, Turbo) launched in 2026 and have no prior-year baseline, so their surge mixes the event with an active launch ramp. And full-size sun-care has stronger summer seasonality than the Mini control, which inflates a naive comparison. The reliable, own-baseline estimate covers only the two legacy SKUs.</div></div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Event-SKU revenue, so far</div><div class="val tl">$4.34M</div><div class="sub">all stores · 43 of 84 days</div></div>
+    <div class="kpi"><div class="lab">Reliable incremental</div><div class="val gd">~$238K</div><div class="sub">legacy SKUs, own 2025 baseline</div></div>
+    <div class="kpi"><div class="lab">Full plausible band</div><div class="val">$0.24–1.96M</div><div class="sub">new SKUs unisolable</div></div>
+    <div class="kpi"><div class="lab">Launch-week jump</div><div class="val">~2.0&times;</div><div class="sub">vs ~1.2&times; for control</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Parallel until launch, then a clean break</h2>
+    <p class="cap">Weekly sales indexed to the pre-event average (1.0 = mean of the 3/30–5/4 weeks). Event SKUs (teal) and non-event control SKUs (slate) move together through early May, then the event SKUs jump to ~2× the week of 5/10 while control stays near 1.1–1.3×. The sharp, dated break is the strongest evidence the event did something real.</p>
+    <svg id="trend" viewBox="0 0 980 420" role="img" aria-label="Weekly indexed sales, event SKUs vs control SKUs"></svg>
+    <div class="legend">
+      <span><i class="ln" style="background:var(--teal)"></i>Event SKUs (4)</span>
+      <span><i class="ln" style="background:var(--slate)"></i>Non-event control SKUs (2 Minis)</span>
+      <span><i class="ln" style="background:var(--gold2)"></i>Event starts 5/10</span>
+    </div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <h2>Event-window revenue by SKU</h2>
+      <p class="cap">Through 6/21. Legacy SKUs can be measured against their own 2025 summer; the two new SKUs can't be separated from launch ramp.</p>
+      <svg id="bysku" viewBox="0 0 440 300" role="img" aria-label="Event-window revenue by SKU"></svg>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--slate)"></i>Legacy (measurable)</span>
+        <span><i class="sw" style="background:linear-gradient(90deg,var(--gold1),var(--gold2))"></i>New (unisolable)</span>
+      </div>
+    </div>
+    <div class="card note">
+      <span class="tag">How to read the range</span>
+      <p><b>Floor (~$238K):</b> measuring the two legacy SKUs against their own 2025 summer, the event softened their year-over-year decline — a modest, defensible gain.</p>
+      <p><b>Ceiling (~$1.96M):</b> a naive cross-SKU comparison credits the event for the full gap vs the Minis. That almost certainly overstates it, since full-size products ramp into summer far harder than travel Minis regardless of any event.</p>
+      <p><b>The honest read:</b> the reliably-attributable amount so far is ~$238K, plus a likely-but-unprovable contribution from SPF0 and Turbo. The new SKUs sold $1.65M during the window, but no prior-year data exists to say how much of that is the event vs the launch itself.</p>
+      <p><b>Recommendation:</b> re-run at event close (8/1), and — most useful — hold out a small control group of stores next time so incrementality is measurable on the new SKUs too.</p>
+    </div>
+  </div>
+
+  <p class="foot">Method: cross-SKU within-2026 difference-in-differences (control = the two non-event Mini SKUs), validated by tight pre-event parallel trends. The reliable estimate instead uses a within-product year-over-year acceleration test on the legacy SKUs (counterfactual = 2025 event-window sales grown at each product's own pre-event YoY rate), which captures their true summer seasonality. Figures are partial through 6/21/2026; data combines the store CSV with the L3D Excel extension (6/19–6/21).</p>
+</div>
+
+<script>
+const ns='http://www.w3.org/2000/svg';
+
+/* TREND (indexed lines) */
+(function(){
+  const wk=['3/30','4/6','4/13','4/20','4/27','5/4','5/11','5/18','5/25','6/1','6/8','6/15'];
+  const T=[1.14,1.07,1.11,0.89,0.79,1.01,1.96,2.02,2.26,2.43,2.30,1.83];
+  const C=[1.10,1.05,1.06,0.90,0.85,1.03,1.34,1.15,1.15,1.25,1.12,1.02];
+  const W=980,Hh=420,L=52,R=24,T0=30,B=58, pw=W-L-R, ph=Hh-T0-B, max=2.6;
+  const x=i=>L+pw*i/(wk.length-1), y=v=>T0+ph*(1-v/max);
+  const svg=document.getElementById('trend');
+  const add=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;};
+  for(let g=0;g<=2.5;g+=0.5){ add('line',{x1:L,y1:y(g),x2:W-R,y2:y(g),stroke:g===1?'rgba(238,241,246,.22)':'rgba(138,148,168,.12)','stroke-dasharray':g===1?'':'',});
+    add('text',{x:L-9,y:y(g)+4,fill:'#8A94A8','font-size':11,'text-anchor':'end'},g.toFixed(1)+'\u00d7');}
+  wk.forEach((w,i)=>add('text',{x:x(i),y:Hh-B+20,fill:'#8A94A8','font-size':10.5,'text-anchor':'middle'},w));
+  const mx=x(5)+(x(6)-x(5))*0.86;
+  add('rect',{x:mx,y:T0,width:(W-R)-mx,height:ph,fill:'rgba(78,215,196,.05)'});
+  add('line',{x1:mx,y1:T0-6,x2:mx,y2:Hh-B,stroke:'#FF9E3D','stroke-width':1.4,'stroke-dasharray':'4 4'});
+  add('text',{x:mx+6,y:T0+6,fill:'#FF9E3D','font-size':11,'font-weight':700},'Event 5/10');
+  const line=(arr,col,w)=>{let d='';arr.forEach((v,i)=>d+=(i?'L':'M')+x(i)+' '+y(v)+' ');add('path',{d:d,fill:'none',stroke:col,'stroke-width':w,'stroke-linejoin':'round','stroke-linecap':'round'});};
+  line(C,'#5B6B8C',2.2); line(T,'#4ED7C4',3);
+  T.forEach((v,i)=>add('circle',{cx:x(i),cy:y(v),r:3,fill:'#0E1320',stroke:'#4ED7C4','stroke-width':2.2}));
+  add('text',{x:L,y:T0-14,fill:'#8A94A8','font-size':11},'Weekly sales, indexed to pre-event average');
+})();
+
+/* BY SKU bars */
+(function(){
+  const d=[['Intensive OG',1740701,0],['Shimmer OG',950085,0],['SPF0 OG',896914,1],['Turbo',754898,1]];
+  const W=440,H=300,L=104,R=52,T=8,B=26, pw=W-L-R, ph=H-T-B, max=1800000;
+  const svg=document.getElementById('bysku');
+  const add=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;};
+  const defs=document.createElementNS(ns,'defs');
+  defs.innerHTML='<linearGradient id="ng" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFC861"/><stop offset="1" stop-color="#FF9E3D"/></linearGradient>';
+  svg.appendChild(defs);
+  const bh=34, gap=(ph-bh*d.length)/(d.length-1);
+  d.forEach((row,i)=>{
+    const[name,v,isnew]=row, yy=T+i*(bh+gap);
+    add('rect',{x:L,y:yy,width:pw*v/max,height:bh,rx:4,fill:isnew?'url(#ng)':'#5B6B8C'});
+    add('text',{x:L-10,y:yy+bh/2+4,fill:'#C3CAD8','font-size':12,'text-anchor':'end'},name);
+    add('text',{x:L+pw*v/max+7,y:yy+bh/2+4,fill:'#EEF1F6','font-size':11.5,'font-weight':600},'$'+(v/1e6).toFixed(2)+'M');
+  });
+  add('text',{x:L,y:H-2,fill:'#8A94A8','font-size':10.5},'Event-window sales, all stores');
+})();
+</script>
+</body>
+</html>
