@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sun Destination 2025 — Revenue & Profit</title>
+<style>
+  :root{--bg:#0E1320;--panel:#151C2C;--ink:#EEF1F6;--muted:#8A94A8;--hair:rgba(138,148,168,.18);
+    --slate:#5B6B8C;--gold1:#FFC861;--gold2:#FF9E3D;--teal:#4ED7C4;--shim:#7CA0E0;}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1;}
+  .wrap{max-width:1000px;margin:0 auto;padding:46px 32px 60px;}
+  .eyebrow{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin:0 0 12px;}
+  h1{font-size:clamp(24px,3.6vw,36px);line-height:1.1;margin:0 0 12px;font-weight:800;letter-spacing:-.02em;}
+  h1 .hl{color:var(--gold1);}
+  .lede{color:var(--muted);max-width:680px;font-size:15px;line-height:1.55;margin:0 0 30px;}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:0 0 30px;}
+  .kpi{background:var(--panel);border:1px solid var(--hair);border-radius:14px;padding:17px;}
+  .kpi .lab{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
+  .kpi .val{font-size:23px;font-weight:800;letter-spacing:-.02em;line-height:1.05;}
+  .kpi .sub{font-size:12px;color:var(--muted);margin-top:6px;}
+  .tl{color:var(--teal)} .gd{color:var(--gold1)} .dn{color:#FF8A8A}
+  .card{background:var(--panel);border:1px solid var(--hair);border-radius:18px;padding:28px 30px 22px;margin-bottom:24px;}
+  .card h2{font-size:17px;margin:0 0 3px;font-weight:700;letter-spacing:-.01em;}
+  .card .cap{font-size:13px;color:var(--muted);margin:0 0 16px;line-height:1.5;}
+  svg{display:block;width:100%;height:auto;overflow:visible;}
+  .legend{display:flex;gap:20px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:10px;}
+  .legend span{display:inline-flex;align-items:center;gap:8px;}
+  .sw{width:13px;height:13px;border-radius:3px;display:inline-block;}.ln{width:18px;height:3px;border-radius:2px;display:inline-block;}
+  .foot{font-size:12px;color:var(--muted);margin-top:24px;line-height:1.6;border-top:1px solid var(--hair);padding-top:16px;}
+  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Sun Destination 2025 &middot; all stores &middot; 5/11–8/3/2025</p>
+  <h1>$5.81M in event revenue — but at today's margins the profit would be <span class="hl">~20% lower</span></h1>
+  <p class="lede">Intensive OG and Shimmer OG were the only SKUs selling in 2025. With no control group (all stores) and no 2024 baseline, the "lift" is measured against April-2025 pace, so it blends summer seasonality with the event. The headline finding is the profit erosion: Intensive OG's ROI fell from 40.5% to 30%, so the same event run today yields meaningfully less profit.</p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Event revenue</div><div class="val tl">$5.81M</div><div class="sub">2 SKUs · 85 days</div></div>
+    <div class="kpi"><div class="lab">Lift vs April pace</div><div class="val">$1.94M</div><div class="sub">season + event</div></div>
+    <div class="kpi"><div class="lab">Profit then</div><div class="val gd">$660K</div><div class="sub">on lift · 2025 ROI</div></div>
+    <div class="kpi"><div class="lab">Profit now</div><div class="val dn">$526K</div><div class="sub">on lift · 2026 ROI</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Same lift, lower margins: profit then vs. now</h2>
+    <p class="cap">Profit on the $1.94M lift, by SKU, under 2025 ROI (then) vs 2026 ROI (now). Almost the entire $134K erosion is Intensive OG, whose ROI dropped 10.5 points; Shimmer OG is nearly flat.</p>
+    <svg id="profit" viewBox="0 0 920 280" role="img" aria-label="Profit then vs now by SKU"></svg>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--gold1)"></i>Profit then (2025 ROI)</span>
+      <span><i class="sw" style="background:var(--slate)"></i>Profit now (2026 ROI)</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2025 weekly revenue &amp; the event window</h2>
+    <p class="cap">The shaded band is the Sun Destination window. Sales climb into a July peak and fall away after — the seasonal arc the all-stores design can't separate from the event itself.</p>
+    <svg id="trend" viewBox="0 0 920 320" role="img" aria-label="2025 weekly revenue"></svg>
+    <div class="legend">
+      <span><i class="ln" style="background:var(--teal)"></i>Intensive OG</span>
+      <span><i class="ln" style="background:var(--shim)"></i>Shimmer OG</span>
+      <span><i class="ln" style="background:var(--gold2)"></i>Event 5/11–8/3</span>
+    </div>
+  </div>
+
+  <p class="foot">Method note: "similar to March Endcap" requested, but the March Endcap had untreated control stores; Sun Destination ran at all stores in 2025, so no control exists and the lift is a before/after vs April-2025 pace (not a control-isolated incremental). For reference, profit on the full $5.81M event revenue would be $1.97M then vs $1.57M now. ROI then: Intensive 40.51%, Shimmer 23.05%. ROI now: Intensive 30.00%, Shimmer 22.21%.</p>
+</div>
+
+<script>
+const ns='http://www.w3.org/2000/svg';
+/* PROFIT then vs now */
+(function(){
+  const d=[{n:'Intensive OG',t:490947,w:363575},{n:'Shimmer OG',t:168962,w:162804},{n:'Total',t:659909,w:526379}];
+  const W=920,H=280,L=120,R=70,T=14,B=22,pw=W-L-R,ph=H-T-B,max=700000;
+  const xv=v=>L+pw*v/max;
+  const svg=document.getElementById('profit');
+  const add=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;};
+  for(let v=0;v<=700000;v+=175000){add('line',{x1:xv(v),y1:T,x2:xv(v),y2:T+ph,stroke:'rgba(138,148,168,.12)'});
+    add('text',{x:xv(v),y:T+ph+15,fill:'#8A94A8','font-size':10.5,'text-anchor':'middle'},'$'+(v/1000).toFixed(0)+'K');}
+  const rowH=ph/d.length, bh=18, gap=6;
+  d.forEach((row,i)=>{
+    const cy=T+i*rowH+rowH/2;
+    add('text',{x:L-12,y:cy+4,fill:row.n==='Total'?'#EEF1F6':'#C3CAD8','font-size':12.5,'font-weight':row.n==='Total'?800:600,'text-anchor':'end'},row.n);
+    const y1=cy-gap/2-bh; add('rect',{x:L,y:y1,width:Math.max(xv(row.t)-L,1),height:bh,rx:3,fill:'#FFC861'});
+    add('text',{x:xv(row.t)+7,y:y1+bh/2+4,fill:'#FFD79A','font-size':11.5,'font-weight':700},'$'+(row.t/1000).toFixed(0)+'K');
+    const y2=cy+gap/2; add('rect',{x:L,y:y2,width:Math.max(xv(row.w)-L,1),height:bh,rx:3,fill:'#5B6B8C'});
+    add('text',{x:xv(row.w)+7,y:y2+bh/2+4,fill:'#C3CAD8','font-size':11.5,'font-weight':600},'$'+(row.w/1000).toFixed(0)+'K');
+  });
+})();
+/* 2025 WEEKLY trend */
+(function(){
+  const weeks=["2/25","3/4","3/11","3/18","3/25","4/1","4/8","4/15","4/22","4/29","5/6","5/13","5/20","5/27","6/3","6/10","6/17","6/24","7/1","7/8","7/15","7/22","7/29","8/5","8/12","8/19","8/26","9/2"];
+  const INT=[71317,189289,264974,249626,178044,169146,237910,201584,190638,171250,268903,310906,335937,398563,395449,340610,507358,355899,307704,193283,149504,129104,88592,59901,42436,27091,19532,9425];
+  const SHM=[42632,119818,175718,142530,105734,111803,146076,128357,110194,107765,153220,182091,213351,241648,249144,207319,306331,234190,196957,114687,89901,75211,54093,39033,28278,17681,12203,6657];
+  const W=920,H=320,L=52,R=18,T=20,B=40,pw=W-L-R,ph=H-T-B,max=550000;
+  const x=i=>L+pw*i/(weeks.length-1), y=v=>T+ph*(1-v/max);
+  const svg=document.getElementById('trend');
+  const add=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;};
+  // event shading: index of 5/13 (11) to 7/29 (22)
+  const x0=x(11),x1=x(22);
+  add('rect',{x:x0,y:T,width:x1-x0,height:ph,fill:'rgba(255,158,61,.07)'});
+  add('line',{x1:x0,y1:T,x2:x0,y2:T+ph,stroke:'#FF9E3D','stroke-width':1.2,'stroke-dasharray':'4 4'});
+  add('line',{x1:x1,y1:T,x2:x1,y2:T+ph,stroke:'#FF9E3D','stroke-width':1.2,'stroke-dasharray':'4 4'});
+  add('text',{x:(x0+x1)/2,y:T+12,fill:'#FF9E3D','font-size':11,'font-weight':700,'text-anchor':'middle'},'Sun Destination');
+  for(let g=0;g<=550000;g+=137500){add('line',{x1:L,y1:y(g),x2:W-R,y2:y(g),stroke:'rgba(138,148,168,.1)'});
+    add('text',{x:L-8,y:y(g)+4,fill:'#8A94A8','font-size':10,'text-anchor':'end'},'$'+(g/1000).toFixed(0)+'K');}
+  weeks.forEach((w,i)=>{if(i%2===0)add('text',{x:x(i),y:H-B+16,fill:'#8A94A8','font-size':9.5,'text-anchor':'middle'},w);});
+  [['#4ED7C4',INT],['#7CA0E0',SHM]].forEach(([c,arr])=>{let d='';arr.forEach((v,i)=>d+=(i?'L':'M')+x(i)+' '+y(v)+' ');
+    add('path',{d:d,fill:'none',stroke:c,'stroke-width':2.4,'stroke-linejoin':'round'});});
+})();
+</script>
+</body>
+</html>
